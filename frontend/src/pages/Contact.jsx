@@ -58,10 +58,10 @@ export default function Contact() {
         ))}
       </div>
       <form onSubmit={send} className="card mt-8 grid max-w-3xl gap-4 p-6 md:grid-cols-2">
-        <label><span className="label">Name</span><input className="field" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
-        <label><span className="label">Mobile</span><input className="field" value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value })} /></label>
-        <label className="md:col-span-2"><span className="label">Email</span><input className="field" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
-        <label className="md:col-span-2"><span className="label">Message</span><textarea className="field min-h-32" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /></label>
+        <label><span className="label">Name <span className="text-red-600">*</span></span><input className="field" required minLength={3} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
+        <label><span className="label">Mobile</span><input className="field" inputMode="tel" value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value })} /></label>
+        <label className="md:col-span-2"><span className="label">Email</span><input className="field" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
+        <label className="md:col-span-2"><span className="label">Message <span className="text-red-600">*</span></span><textarea className="field min-h-32" required minLength={10} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /></label>
         <div className="md:col-span-2">
           <button className="btn-primary" disabled={busy}>{busy ? "Sending…" : "Send message"}</button>
           {note && <p className="mt-3 text-sm text-pine">{note}</p>}

@@ -144,6 +144,12 @@ export default function Admin() {
     setMessages(data.messages);
   }
 
+  async function markMessageRead(item) {
+    if (item.read) return;
+    await request(`/api/admin/messages/${item.id}/read`, { method: "PATCH", headers: authHeader() });
+    setMessages((current) => current.map((message) => (message.id === item.id ? { ...message, read: true } : message)));
+  }
+
   async function downloadExcel() {
     const response = await fetch(apiUrl("/api/admin/export"), { headers: authHeader() });
     if (!response.ok) {
@@ -410,9 +416,16 @@ export default function Admin() {
         <section className="mx-auto max-w-6xl space-y-3 px-4 py-4">
           {messages.map((item) => (
             <article key={item.id} className="card p-5">
-              <h2 className="font-extrabold text-pine">{item.name}</h2>
-              <p className="text-sm text-muted">{item.mobile} · {item.email}</p>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-extrabold text-pine">{item.name}</h2>
+                {!item.read && <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-pine">New</span>}
+              </div>
+              <p className="text-sm text-muted">{item.mobile || "No mobile"} · {item.email || "No email"}</p>
               <p className="mt-2 text-sm leading-7">{item.message}</p>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+                <span>{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""}</span>
+                {!item.read && <button type="button" className="font-bold text-pine" onClick={() => markMessageRead(item)}>Mark as read</button>}
+              </div>
             </article>
           ))}
           {!messages.length && <p className="text-sm text-muted">No messages yet.</p>}

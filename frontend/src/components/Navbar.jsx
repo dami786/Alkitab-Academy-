@@ -14,14 +14,13 @@ const links = [
   { to: "/contact", label: "Contact" },
 ];
 
-function Item({ to, label, end, onClick }) {
+function Item({ to, label, end, onClick, block = false }) {
+  const layout = block ? "block w-full rounded-xl px-3 py-3 text-left" : "whitespace-nowrap rounded-full px-3 py-2";
   const className = ({ isActive }) =>
-    `whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition ${
-      isActive ? "text-gold" : "text-white/90 hover:text-gold"
-    }`;
+    `${layout} text-sm font-semibold transition ${isActive ? "text-gold" : "text-white/90 hover:text-gold"}`;
   if (to.includes("#")) {
     return (
-      <a href={to} onClick={onClick} className="whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold text-white/90 transition hover:text-gold">
+      <a href={to} onClick={onClick} className={`${layout} text-sm font-semibold text-white/90 transition hover:text-gold`}>
         {label}
       </a>
     );
@@ -41,17 +40,20 @@ export default function Navbar() {
   return (
     <header className="no-print sticky top-0 z-40">
       <nav className="border-b-4 border-gold bg-pine text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-white/10 ring-1 ring-gold/50">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <Link to="/" className="flex min-w-0 flex-1 items-center gap-2.5" onClick={() => setOpen(false)}>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 ring-1 ring-gold/50">
               <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden="true">
                 <path d="M6 22c4-8 16-8 20 0" fill="none" stroke="#E4B15C" strokeWidth="2" />
                 <path d="M8 14c3 4 13 4 16 0v8H8v-8z" fill="#FBF6F1" />
               </svg>
             </span>
-            <span>
-              <span className="block whitespace-nowrap text-[13px] font-extrabold leading-none sm:text-sm">Al-Kitab International Academy</span>
-              <span className="mt-1 block whitespace-nowrap text-[11px] font-medium text-gold"> Rahmat-e-Kainat ﷺ Quiz Competition 2026–27</span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-extrabold leading-tight">Al-Kitab International Academy</span>
+              <span className="mt-0.5 block truncate text-[11px] font-medium leading-tight text-gold sm:hidden">Quiz Competition 2026–27</span>
+              <span className="mt-0.5 hidden truncate text-[11px] font-medium leading-tight text-gold sm:block">
+                Rahmat-e-Kainat <span className="honorific">ﷺ</span> Quiz Competition 2026–27
+              </span>
             </span>
           </Link>
 
@@ -80,9 +82,7 @@ export default function Navbar() {
         {open && (
           <div className="space-y-1 border-t border-white/10 px-4 py-3 xl:hidden">
             {links.map((link) => (
-              <div key={link.label}>
-                <Item {...link} onClick={() => setOpen(false)} />
-              </div>
+              <Item key={link.label} {...link} block onClick={() => setOpen(false)} />
             ))}
             <Link to="/register" onClick={() => setOpen(false)} className="btn-gold mt-2 w-full whitespace-nowrap">
               {closed ? "Registration Closed" : "Apply Now"}

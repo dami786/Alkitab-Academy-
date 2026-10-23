@@ -1,16 +1,42 @@
-# Admin frontend — build this in a separate app
+# Admin frontend
 
-The public website already exists in `frontend`. Do not add the admin screens there. Create a new React + Tailwind app, for example `admin`, and connect it only to the API in `backend`.
+Admin is already inside the public site:
 
-Local API base URL: `http://localhost:4000`
+- Page: `frontend/src/pages/Admin.jsx`
+- Route: `/admin`
+- API helper: `frontend/src/api.js` (`request`, `authHeader`, `apiUrl`)
 
-The API already allows `http://localhost:5174`. Run the admin app on port 5174:
+Live API base is `https://alkitab-academy.onrender.com`. Local API is `http://localhost:4000`. Every admin call sends:
 
-```bash
-npm run dev -- --port 5174
+```
+Authorization: Bearer <token>
 ```
 
-In Vite, proxy `/api` to `http://localhost:4000`, or call `http://localhost:4000` directly and send the token header.
+The token is saved in `localStorage` under `alkitab_admin` after login.
+
+## Contact form messages
+
+The public contact page is `frontend/src/pages/Contact.jsx`. Submit calls:
+
+`POST /api/contact`
+
+```json
+{ "name": "Ali", "mobile": "03001234567", "email": "ali@mail.com", "message": "Please confirm my city." }
+```
+
+Name must be at least 3 characters. Message must be at least 10 characters. The server saves the message in MongoDB. It does not send an email.
+
+In the admin page, open the **Messages** tab. That tab calls:
+
+`GET /api/admin/messages`
+
+Each item has `id`, `name`, `mobile`, `email`, `message`, `read`, and `createdAt`.
+
+Mark one message read:
+
+`PATCH /api/admin/messages/:id/read`
+
+Unread count is `messages` in `GET /api/admin/overview`.
 
 ## Login
 
@@ -351,12 +377,12 @@ Use the same burgundy `#7C2D3A`, gold `#E4B15C`, and page background `#FBF6F1` a
 
 ## Where to deploy
 
-API Node.js aur Express hai. Registrations, messages, site text, passport photos, aur payment receipts MongoDB mein hain. Files alag `files` collection mein BSON documents hain, is liye server restart par images delete nahi hoti.
+API Node.js aur Express hai. Registrations, contact messages, site text, passport photos, aur payment receipts MongoDB mein hain. Files alag `files` collection mein BSON documents hain, is liye server restart par images delete nahi hoti.
 
 Production layout:
 
 - **Database:** MongoDB Atlas. Connection string `MONGODB_URI` environment variable mein rakho. Database name `alkitab-quiz`.
-- **API:** Render ya Railway. Root folder `backend`, start command `npm start`. `MONGODB_URI`, `MONGODB_DB`, aur `CORS_ORIGINS` set karo. `CORS_ORIGINS` mein public site aur admin site dono ke addresses hon.
-- **Public website aur admin website:** do alag Cloudflare Pages projects.
+- **API:** Render. Root folder `backend`, start command `npm start`. `MONGODB_URI`, `MONGODB_DB`, aur `CORS_ORIGINS` set karo. `CORS_ORIGINS` mein public website ka address ho, jaise `https://alkitab-academy-six.vercel.app`.
+- **Website and admin:** ek hi frontend, Vercel pe. Admin `/admin` pe hai. `frontend/src/api.js` API ko `https://alkitab-academy.onrender.com` call karta hai.
 
-Local par `backend/.env.example` ko `backend/.env` banao, Atlas URI paste karo, phir `cd backend` aur `npm run dev`. Admin app `http://localhost:4000` se baat kare.
+Local par `backend/.env.example` ko `backend/.env` banao, Atlas URI paste karo, phir `cd backend` aur `npm run dev`. Frontend `cd frontend` aur `npm run dev`. Admin `http://localhost:5173/admin` pe kholo.
