@@ -279,15 +279,15 @@ export default function Register() {
               <p className="mt-2 rounded-xl bg-gold/30 px-3 py-2 text-base font-extrabold text-red-700">Registration fee is only PKR 310.</p>
               <p className="mt-2">{content.feeNote}</p>
               <div className="mt-4 grid gap-3 md:grid-cols-3">
-                <div>
-                  <p className="font-semibold">EasyPaisa</p>
-                  <p>{payment.easypaisaName || "Account name will be published by the academy."}</p>
-                  <p>{payment.easypaisaNumber || "Number not added yet."}</p>
+                <div className="rounded-xl bg-gold/30 p-3 ring-2 ring-gold">
+                  <p className="font-extrabold text-pine">EasyPaisa</p>
+                  <p className="mt-1 font-extrabold">{payment.easypaisaName || "Account name will be published by the academy."}</p>
+                  <p className="font-extrabold tracking-wide">{payment.easypaisaNumber || "Number not added yet."}</p>
                 </div>
-                <div>
-                  <p className="font-semibold">JazzCash</p>
-                  <p>{payment.jazzCashName || payment.easypaisaName || "Account name will be published by the academy."}</p>
-                  <p>{payment.jazzCashNumber || "Number not added yet."}</p>
+                <div className="rounded-xl bg-gold/30 p-3 ring-2 ring-gold">
+                  <p className="font-extrabold text-pine">JazzCash</p>
+                  <p className="mt-1 font-extrabold">{payment.jazzCashName || payment.easypaisaName || "Account name will be published by the academy."}</p>
+                  <p className="font-extrabold tracking-wide">{payment.jazzCashNumber || "Number not added yet."}</p>
                 </div>
                 <div className="rounded-xl bg-gold/30 p-3 ring-2 ring-gold">
                   <p className="font-extrabold text-pine">Meezan Bank</p>
