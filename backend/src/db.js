@@ -1,7 +1,10 @@
 import crypto from "crypto";
+import dns from "node:dns";
 import { MongoClient, Binary } from "mongodb";
 import { defaultSettings } from "./defaults.js";
 import { hashPassword } from "./auth.js";
+
+dns.setDefaultResultOrder("ipv4first");
 
 let database;
 
@@ -13,7 +16,8 @@ export async function connectDb() {
   const client = new MongoClient(uri, {
     maxPoolSize: 50,
     minPoolSize: 0,
-    serverSelectionTimeoutMS: 10000,
+    serverSelectionTimeoutMS: 15000,
+    family: 4,
   });
   await client.connect();
   database = client.db(process.env.MONGODB_DB || "alkitab-quiz");
