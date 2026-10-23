@@ -3,11 +3,8 @@ import express from "express";
 import compression from "compression";
 import cors from "cors";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
 import crypto from "crypto";
 import ExcelJS from "exceljs";
-import { fileURLToPath } from "url";
 import {
   connectDb,
   deleteFile,
@@ -22,7 +19,6 @@ import {
 } from "./src/db.js";
 import { signToken, verifyPassword, verifyToken } from "./src/auth.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 4000;
 const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:5173,http://localhost:5174")
@@ -210,25 +206,6 @@ function toPublicStatus(record) {
     submittedAt: record.createdAt,
   };
 }
-
-app.get("/", (_req, res) => {
-  res.type("html").send(`<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Al-Kitab quiz API</title>
-</head>
-<body style="font-family: Georgia, serif; margin: 48px auto; max-width: 36rem; line-height: 1.5; color: #1c1917;">
-  <h1>Al-Kitab quiz API is running</h1>
-  <p>This address is the server, not the public website. The website calls these paths:</p>
-  <ul>
-    <li><a href="/api/health">/api/health</a></li>
-    <li><a href="/api/content">/api/content</a></li>
-  </ul>
-</body>
-</html>`);
-});
 
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
@@ -789,21 +766,6 @@ app.patch("/api/admin/messages/:id/read", requireAdmin, async (req, res, next) =
     next(error);
   }
 });
-
-const dist = path.join(__dirname, "..", "frontend", "dist");
-if (fs.existsSync(dist)) {
-  app.use(express.static(dist, {
-    etag: true,
-    maxAge: "7d",
-    setHeaders(res, filePath) {
-      if (filePath.endsWith("index.html")) res.setHeader("Cache-Control", "no-cache");
-    },
-  }));
-  app.get(/^(?!\/api).*/, (req, res, next) => {
-    if (req.method !== "GET") return next();
-    res.sendFile(path.join(dist, "index.html"));
-  });
-}
 
 app.use((err, _req, res, _next) => {
   console.error(err);

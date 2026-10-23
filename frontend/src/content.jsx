@@ -1,22 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { defaultSettings } from "../../backend/src/defaults.js";
 import { getContent } from "./api";
 
 const ContentContext = createContext(null);
 
 export function ContentProvider({ children }) {
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState(defaultSettings);
   const [error, setError] = useState("");
 
   const reload = () =>
     getContent()
       .then((data) => {
-        setContent(data);
+        if (data && typeof data === "object") setContent({ ...defaultSettings, ...data });
         setError("");
         return data;
       })
-      .catch(() => {
-        setError("The website could not reach the server. Start the backend and refresh this page.");
-      });
+      .catch(() => {});
 
   useEffect(() => {
     reload();
