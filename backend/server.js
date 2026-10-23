@@ -201,6 +201,25 @@ function toPublicStatus(record) {
   };
 }
 
+app.get("/", (_req, res) => {
+  res.type("html").send(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Al-Kitab quiz API</title>
+</head>
+<body style="font-family: Georgia, serif; margin: 48px auto; max-width: 36rem; line-height: 1.5; color: #1c1917;">
+  <h1>Al-Kitab quiz API is running</h1>
+  <p>This address is the server, not the public website. The website calls these paths:</p>
+  <ul>
+    <li><a href="/api/health">/api/health</a></li>
+    <li><a href="/api/content">/api/content</a></li>
+  </ul>
+</body>
+</html>`);
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
