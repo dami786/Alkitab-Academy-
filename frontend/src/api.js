@@ -1,4 +1,4 @@
-const configured = (import.meta.env.VITE_API_URL || "https://alkitab-academy.onrender.com").replace(/\/$/, "");
+const configured = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 export const API_BASE = configured;
 
 export function apiUrl(path) {
