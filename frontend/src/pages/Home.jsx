@@ -68,7 +68,7 @@ export default function Home() {
             )}
             <Link to="/status" className="btn-outline px-8">Check Registration Status</Link>
           </div>
-          <p className="mt-4 text-sm font-extrabold text-pine">Registration fee is only PKR 310.</p>
+          <p className="mt-4 text-base font-extrabold text-red-700">Registration fee is only PKR 310.</p>
           <div className="mx-auto mt-12 overflow-hidden rounded-[28px] border border-gold/50 bg-white shadow-card">
             <img src="/hero.jpg" alt="Rahmat-e-Kainat Quiz Competition 2026-27, coming soon" className="h-auto w-full" decoding="async" fetchPriority="high" />
           </div>
@@ -238,7 +238,7 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <p className="mx-auto mt-8 max-w-3xl rounded-2xl bg-gold/30 px-5 py-4 text-center text-base font-extrabold text-pine">
+          <p className="mx-auto mt-8 max-w-3xl rounded-2xl bg-gold/30 px-5 py-4 text-center text-base font-extrabold text-red-700">
             Registration fee is only PKR 310.
           </p>
         </div>
@@ -250,6 +250,13 @@ export default function Home() {
             eyebrow="Province / District"
             title="Test Centers"
             text="Choose your province and city while registering. The exact test center is not confirmed yet. It will be printed on your roll number slip when the academy announces it."
+          />
+          <img
+            src="/test-centers.jpg"
+            alt="Quiz test cities: Abbottabad and Mansehra, Haripur and Wah Cantt, Rawalpindi and Islamabad, Sargodha and Khushab, Faisalabad, Gujranwala, Lahore, Multan, Rahim Yar Khan, Malakand, Peshawar, Hyderabad, Karachi, and Quetta."
+            className="mb-8 w-full rounded-3xl"
+            loading="lazy"
+            decoding="async"
           />
           <div className="grid gap-5 md:grid-cols-2">
             {provinces.map((province) => (
@@ -306,7 +313,7 @@ export default function Home() {
             <p className="urdu mx-auto mt-4 max-w-2xl text-base text-white/85" dir="rtl">
               <Honorific>آج ہی رجسٹریشن کریں اور سیرتِ مصطفیٰ ﷺ کے اس بابرکت سفر کا آغاز کریں۔</Honorific>
             </p>
-            <p className="mt-4 text-sm font-extrabold text-gold">Registration fee is only PKR 310.</p>
+            <p className="mt-4 text-base font-extrabold text-red-300">Registration fee is only PKR 310.</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/register" className="btn-gold">Apply for Admission</Link>
               <Link to="/contact" className="btn-outline !border-white/30 !bg-transparent !text-white">Contact the Academy</Link>

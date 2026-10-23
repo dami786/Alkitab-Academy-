@@ -1,7 +1,13 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { useContent } from "../content.jsx";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import WelcomeSplash from "./WelcomeSplash";
+
+function PageFallback() {
+  return <div className="px-4 py-24 text-center font-semibold text-pine">Loading…</div>;
+}
 
 export default function Layout() {
   const { content } = useContent();
@@ -10,9 +16,12 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <WelcomeSplash />
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        <Suspense fallback={<PageFallback />}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
       <a
