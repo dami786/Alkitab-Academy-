@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../api";
 import { useContent } from "../content.jsx";
 
 const steps = ["Personal", "Location", "Photo", "Payment"];
@@ -105,7 +106,7 @@ export default function Register() {
     setBusy(true);
     setMessage("");
     try {
-      const response = await fetch("/api/register", { method: "POST", body });
+      const response = await fetch(apiUrl("/api/register"), { method: "POST", body });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not submit the registration.");
       setRegNumber(data.regNumber);

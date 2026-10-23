@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { authHeader, request } from "../api";
+import { apiUrl, authHeader, request } from "../api";
 
 const tabs = ["Overview", "Registrations", "Website", "Messages"];
 
@@ -145,7 +145,7 @@ export default function Admin() {
   }
 
   async function downloadExcel() {
-    const response = await fetch("/api/admin/export", { headers: authHeader() });
+    const response = await fetch(apiUrl("/api/admin/export"), { headers: authHeader() });
     if (!response.ok) {
       setNote("Could not download the Excel file.");
       return;

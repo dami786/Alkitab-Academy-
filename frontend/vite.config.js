@@ -7,11 +7,8 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://alkitab-academy.onrender.com",
+        target: "http://127.0.0.1:4000",
         changeOrigin: true,
-        secure: true,
-        timeout: 180000,
-        proxyTimeout: 180000,
       },
     },
   },

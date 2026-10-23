@@ -1,5 +1,5 @@
 const configured = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-export const API_BASE = configured || (import.meta.env.PROD ? "https://alkitab-academy.onrender.com" : "");
+export const API_BASE = configured;
 
 export function apiUrl(path) {
   return `${API_BASE}${path}`;
