@@ -189,9 +189,9 @@ export default function Home() {
             <p className="urdu text-base text-ink" dir="rtl"><Honorific>{content.syllabus.urdu}</Honorific></p>
             <p className="mt-6 leading-8 text-muted">{content.syllabus.english}</p>
             <div className="urdu mt-8 rounded-2xl bg-cream px-5 py-6 text-center text-base text-ink" dir="rtl">
-              <p className="text-lg font-bold text-pine">📌 اہم نوٹ</p>
-              <p className="mt-3 font-extrabold">📊 60 فیصد سوالات الرحیق المختوم سے ہوں گے۔</p>
-              <p className="mt-2 font-extrabold"><Honorific>📊 40 فیصد سوالات آسان سیرت محمد ﷺ سے ہوں گے۔</Honorific></p>
+              <p className="text-lg font-bold text-pine">اہم نوٹ</p>
+              <p className="mt-3 font-extrabold">60 فیصد سوالات الرحیق المختوم سے ہوں گے۔</p>
+              <p className="mt-2 font-extrabold"><Honorific>40 فیصد سوالات آسان سیرت محمد ﷺ سے ہوں گے۔</Honorific></p>
               <p className="mt-4">تمام شرکاء ان دونوں کتابوں کا اچھی طرح مطالعہ کریں۔ جزاکم اللہ خیراً۔</p>
             </div>
           </div>
