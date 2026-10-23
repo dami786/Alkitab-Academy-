@@ -111,7 +111,12 @@ export default function Register() {
       if (!response.ok) throw new Error(data.error || "Could not submit the registration.");
       setRegNumber(data.regNumber);
     } catch (err) {
-      setMessage(err.message);
+      const text = err?.message || "";
+      setMessage(
+        text === "Failed to fetch"
+          ? "The website could not reach the server. Please check your connection and try again."
+          : text || "Could not submit the registration."
+      );
     } finally {
       setBusy(false);
     }
