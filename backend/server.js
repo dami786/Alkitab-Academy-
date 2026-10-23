@@ -30,6 +30,16 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:5173,http:
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+function isAllowedOrigin(origin) {
+  if (!origin || allowedOrigins.includes(origin)) return true;
+  try {
+    const { protocol, hostname } = new URL(origin);
+    return protocol === "https:" && (hostname === "alkitab-academy.vercel.app" || (hostname.startsWith("alkitab-academy") && hostname.endsWith(".vercel.app")));
+  } catch {
+    return false;
+  }
+}
+
 const hits = new Map();
 function rateLimit(key, limit, windowMs) {
   const now = Date.now();
@@ -54,7 +64,7 @@ app.use((req, res, next) => {
   res.setHeader("Referrer-Policy", "same-origin");
   next();
 });
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors({ origin: (origin, callback) => callback(null, isAllowedOrigin(origin)) }));
 app.use(express.json({ limit: "1mb" }));
 
 const upload = multer({
