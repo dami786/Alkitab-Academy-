@@ -54,7 +54,7 @@ export default function AdmitCard() {
       {card && (
         <article className="print-card mt-8 rounded-3xl border-4 border-gold bg-white p-6 md:p-10">
           <div className="border-b border-gold/40 pb-4 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Al-Kitab International Academy</p>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Al-Kitab International Quran Academy</p>
             <h2 className="mt-2 text-2xl font-extrabold text-pine">{card.competition}</h2>
             <p className="mt-1 text-sm font-semibold text-muted">Admit Card / Roll Number Slip</p>
           </div>

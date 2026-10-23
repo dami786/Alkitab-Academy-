@@ -5,7 +5,7 @@ function Heading({ eyebrow, title, text, note, urdu = false }) {
   return (
     <div className="mx-auto mb-12 max-w-3xl text-center">
       <p className="text-xs font-bold uppercase tracking-[0.28em] text-goldDeep">{eyebrow}</p>
-      <h2 className={`mt-3 text-3xl font-extrabold text-pine md:text-4xl ${urdu ? "urdu" : ""}`} dir={urdu ? "rtl" : undefined}>{title}</h2>
+      <h2 className={`mt-3 font-extrabold text-pine ${urdu ? "urdu text-2xl md:text-3xl" : "text-3xl md:text-4xl"}`} dir={urdu ? "rtl" : undefined}>{urdu ? <Honorific>{title}</Honorific> : title}</h2>
       {note && <p className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-goldDeep">{note}</p>}
       <div className="gold-line mx-auto mt-4" />
       {text && <p className="mt-5 text-base leading-8 text-muted">{text}</p>}
@@ -53,11 +53,11 @@ export default function Home() {
           <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-extrabold leading-tight text-pine md:text-6xl">
             <Honorific>{content.hero.title}</Honorific>
           </h1>
-          <p className="urdu mx-auto mt-6 max-w-3xl text-xl text-ink md:text-2xl" dir="rtl">
-            {content.hero.urduTitle}
+          <p className="urdu mx-auto mt-6 max-w-3xl text-base text-ink md:text-lg" dir="rtl">
+            <Honorific>{content.hero.urduTitle}</Honorific>
           </p>
-          <p className="urdu mx-auto mt-2 max-w-3xl text-lg text-goldDeep" dir="rtl">
-            {content.hero.tagline}
+          <p className="urdu mx-auto mt-2 max-w-3xl text-sm text-goldDeep md:text-base" dir="rtl">
+            <Honorific>{content.hero.tagline}</Honorific>
           </p>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-muted md:text-lg"><Honorific>{content.hero.intro}</Honorific></p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -69,7 +69,7 @@ export default function Home() {
             <Link to="/status" className="btn-outline px-8">Check Registration Status</Link>
           </div>
           <div className="mx-auto mt-12 overflow-hidden rounded-[28px] border border-gold/50 bg-white shadow-card">
-            <img src="/banner.jpg" alt="Al-Kitab International Academy Seerat Quiz Competition poster" className="h-auto w-full" decoding="async" fetchPriority="high" />
+            <img src="/hero.jpg" alt="Rahmat-e-Kainat Quiz Competition 2026-27, coming soon" className="h-auto w-full" decoding="async" fetchPriority="high" />
           </div>
         </div>
       </section>
@@ -78,7 +78,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4">
           <Heading eyebrow="Introduction" title="About the Competition" text={content.about.purpose} />
           <div className="card mb-8 p-6 md:p-10" dir="rtl">
-            <p className="urdu text-center text-lg text-ink md:text-xl">{content.about.urduIntro}</p>
+            <p className="urdu text-center text-base text-ink md:text-lg"><Honorific>{content.about.urduIntro}</Honorific></p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <article className="card p-7">
@@ -172,8 +172,8 @@ export default function Home() {
             <article className="card flex flex-col justify-center p-8">
               <h3 className="text-2xl font-extrabold text-pine">Top 20 Position Holders</h3>
               <p className="mt-4 leading-8 text-muted">{String(content.top100).replace(/\btop 100\b/gi, "top 20")}</p>
-              <p className="urdu mt-6 text-lg text-ink" dir="rtl">
-                ملکی سطح پر پہلی پوزیشن کے لیے تین لاکھ، دوسری کے لیے دو لاکھ اور تیسری پوزیشن کے لیے ایک لاکھ روپے کا انعام رکھا گیا ہے۔ یہ انعام حوصلہ افزائی ہے، اصل کامیابی سیرتِ رسول اللہ ﷺ کو پڑھنا، سمجھنا اور اس پر عمل کرنا ہے۔
+              <p className="urdu mt-6 text-base text-ink" dir="rtl">
+                <Honorific>ملکی سطح پر پہلی پوزیشن کے لیے تین لاکھ، دوسری کے لیے دو لاکھ اور تیسری پوزیشن کے لیے ایک لاکھ روپے کا انعام رکھا گیا ہے۔ یہ انعام حوصلہ افزائی ہے، اصل کامیابی سیرتِ رسول اللہ ﷺ کو پڑھنا، سمجھنا اور اس پر عمل کرنا ہے۔</Honorific>
               </p>
               <Link to="/register" className="btn-primary mt-8 self-start">Register Today</Link>
             </article>
@@ -186,21 +186,21 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4">
           <Heading eyebrow="Books & Syllabus" title="سیرتِ نبوی ﷺ کا منتخب نصاب" urdu />
           <div className="card p-7 md:p-10">
-            <p className="urdu text-lg text-ink" dir="rtl">{content.syllabus.urdu}</p>
+            <p className="urdu text-base text-ink" dir="rtl"><Honorific>{content.syllabus.urdu}</Honorific></p>
             <p className="mt-6 leading-8 text-muted">{content.syllabus.english}</p>
           </div>
           <div className="mt-6 grid items-stretch gap-6 md:grid-cols-2">
             {content.books.map((book, index) => {
-              const image = book.image || ["/syllabus-books.jpg", "/syllabus-notice.png"][index];
+              const image = ["/book-raheeq.jpg", "/book-aasan.png"][index] || book.image;
               return (
                 <article key={book.english} className="card flex h-full flex-col overflow-hidden">
                   {image && (
-                    <img src={image} alt={book.english} className="h-52 w-full object-cover object-top sm:h-56" loading="lazy" decoding="async" />
+                    <img src={image} alt={book.english} className="h-72 w-full bg-[#f6efe2] object-contain sm:h-80" loading="lazy" decoding="async" />
                   )}
                   <div className="flex flex-1 flex-col p-7">
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-goldDeep">Book {index + 1}</p>
-                    <h3 className="urdu mt-3 text-2xl text-pine" dir="rtl">{book.title}</h3>
-                    <p className="urdu mt-2 text-sm text-muted" dir="rtl">{book.author}</p>
+                    <h3 className="urdu mt-3 text-xl text-pine" dir="rtl"><Honorific>{book.title}</Honorific></h3>
+                    <p className="urdu mt-2 text-sm text-muted" dir="rtl"><Honorific>{book.author}</Honorific></p>
                     <p className="mt-4 text-sm font-semibold text-ink">{book.english}</p>
                     {book.link && (
                       <a href={book.link} target="_blank" rel="noreferrer" className="btn-primary mt-6 self-start">
@@ -212,6 +212,10 @@ export default function Home() {
               );
             })}
           </div>
+          <p className="mx-auto mt-8 max-w-3xl rounded-2xl bg-gold/30 px-5 py-4 text-center text-base font-extrabold leading-7 text-pine">
+            If you want to purchase these books, please contact this number:{" "}
+            <a href="tel:+923473371350" className="underline">+92347-3371350</a>
+          </p>
         </div>
       </section>
 
@@ -288,8 +292,8 @@ export default function Home() {
         <div className="mx-auto max-w-4xl px-4">
           <div className="rounded-[32px] bg-pine px-6 py-12 text-center text-white md:px-12">
             <h2 className="text-3xl font-extrabold">Begin the blessed journey of Seerah</h2>
-            <p className="urdu mx-auto mt-4 max-w-2xl text-lg text-white/85" dir="rtl">
-              آج ہی رجسٹریشن کریں اور سیرتِ مصطفیٰ ﷺ کے اس بابرکت سفر کا آغاز کریں۔
+            <p className="urdu mx-auto mt-4 max-w-2xl text-base text-white/85" dir="rtl">
+              <Honorific>آج ہی رجسٹریشن کریں اور سیرتِ مصطفیٰ ﷺ کے اس بابرکت سفر کا آغاز کریں۔</Honorific>
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/register" className="btn-gold">Apply for Admission</Link>

@@ -194,7 +194,7 @@ export default function Admin() {
       <header className="border-b-4 border-gold bg-pine text-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-gold">Al-Kitab International Academy</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-gold">Al-Kitab International Quran Academy</p>
             <h1 className="text-lg font-extrabold">Competition administration</h1>
           </div>
           <div className="flex gap-3">
@@ -292,17 +292,29 @@ export default function Admin() {
                 )}
                 <button type="button" className="btn-outline !px-3 !py-2" onClick={removeCandidate}>Delete</button>
               </div>
-              <form className="mt-4 grid gap-2" onSubmit={(event) => { event.preventDefault(); act("roll-slip", { examDate: detail.examDate, examTime: detail.examTime, centerConfirmed: detail.centerConfirmed === true, examVenue: detail.centerConfirmed === true ? detail.examVenue : "" }); }}>
+              <form className="mt-4 grid gap-2" onSubmit={(event) => {
+                event.preventDefault();
+                const venue = String(detail.examVenue || "").trim();
+                const confirmed = detail.centerConfirmed === true || venue.length >= 8;
+                if (confirmed && venue.length < 8) {
+                  setNote("Enter the full center address (at least 8 characters), or tick “Center not confirmed yet”.");
+                  return;
+                }
+                act("roll-slip", {
+                  examDate: detail.examDate || "",
+                  examTime: detail.examTime || "",
+                  centerConfirmed: confirmed,
+                  examVenue: confirmed ? venue : "",
+                });
+              }}>
                 <p className="text-sm font-bold text-pine">Roll number slip</p>
                 <input className="field" placeholder="Date, or leave blank to announce later" value={detail.examDate || ""} onChange={(e) => setDetail({ ...detail, examDate: e.target.value })} />
                 <input className="field" placeholder="Time, or leave blank to announce later" value={detail.examTime || ""} onChange={(e) => setDetail({ ...detail, examTime: e.target.value })} />
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" checked={detail.centerConfirmed !== true} onChange={(e) => setDetail({ ...detail, centerConfirmed: !e.target.checked, examVenue: e.target.checked ? "" : detail.examVenue })} />
+                  <input type="checkbox" checked={detail.centerConfirmed !== true} onChange={(e) => setDetail({ ...detail, centerConfirmed: !e.target.checked })} />
                   Center not confirmed yet
                 </label>
-                {detail.centerConfirmed === true && (
-                  <input className="field" placeholder="Confirmed center address" value={detail.examVenue || ""} onChange={(e) => setDetail({ ...detail, examVenue: e.target.value })} />
-                )}
+                <input className="field" placeholder="Center address" value={detail.examVenue || ""} onChange={(e) => setDetail({ ...detail, examVenue: e.target.value, centerConfirmed: e.target.value.trim().length >= 8 ? true : detail.centerConfirmed })} />
                 <button className="btn-outline">Save slip</button>
               </form>
               <form className="mt-4 grid gap-2" onSubmit={saveResult}>

@@ -11,9 +11,10 @@ export const defaultSettings = {
     jazzCashName: "Khizar Hayyat Abbasi",
     jazzCashNumber: "+92313-5671167",
     bankName: "Meezan Bank",
-    accountTitle: "Khizar Hayyat Abbasi",
-    accountNumber: "15 81 011 090 3850",
-    iban: "",
+    accountTitle: "KHIZAR HAYAT ABBASI",
+    accountNumber: "15810110903850",
+    iban: "PK16MEZN0015810110903850",
+    branch: "ABBOTTABAD CITY BRANCH",
   },
   contact: {
     phone: "03135671167",
@@ -51,14 +52,14 @@ export const defaultSettings = {
       author: "مولانا صفی الرحمن مبارک پوری رحمہ اللہ",
       english: "Ar-Raheeq Al-Makhtum — Maulana Safi-ur-Rahman Mubarakpuri",
       link: "https://drive.google.com/drive/folders/1evLRpy3xQDYZxCwjFvTF8mkyKz2TZboo",
-      image: "/syllabus-books.jpg",
+      image: "/book-raheeq.jpg",
     },
     {
       title: "آسان سیرت محمد ﷺ",
-      author: "مفتی مصطفیٰ عزیز",
-      english: "Aasan Seerat Muhammad ﷺ — Mufti Mustafa Aziz",
+      author: "مفتی مصطفٰی عزیز دامت برکاتہم",
+      english: "Aasan Seerat Muhammad ﷺ — Mufti Mustafa Aziz, damat barakatuhum",
       link: "https://drive.google.com/drive/folders/1evLRpy3xQDYZxCwjFvTF8mkyKz2TZboo",
-      image: "/syllabus-notice.png",
+      image: "/book-aasan.png",
     },
   ],
   centers: [
@@ -78,9 +79,9 @@ export const defaultSettings = {
     ["Balochistan", "Quetta"],
   ].map(([province, city]) => ({ province, city, venue: "", confirmed: false, examDate: "", examTime: "" })),
   hero: {
-    badge: "A programme by Al-Kitab International Academy",
+    badge: "A programme by Al-Kitab International Quran Academy",
     title: "Rahmat-e-Kainat ﷺ Quiz Competition 2026–27",
-    urduTitle: "الکتاب انٹرنیشنل آکیڈمی کے زیر نگرانی سیرت کوئز مقابلہ",
+    urduTitle: "الکتاب انٹرنیشنل قرآن اکیڈمی کے زیر اہتمام رحمت کائنات سیرت کوئز کمپٹیشن 27-2026",
     tagline: "سیرتِ مصطفیٰ ﷺ، علم بھی، عمل بھی، کامیابی بھی",
     intro:
       "Our purpose is to help young people learn more about the life of Prophet Muhammad ﷺ through an engaging Seerah Quiz Competition. We aim to encourage the study of his teachings, build a stronger connection with his noble example, and inspire people to follow his guidance in their daily lives.",
@@ -102,18 +103,18 @@ export const defaultSettings = {
       "To connect learning with practice so that the lessons gained from the Seerah can become part of everyday life.",
     ],
     founderTitle: "Founder & Project Director",
-    founderOrg: "Al-Kitab International Academy",
+    founderOrg: "Al-Kitab International Quran Academy",
     founder:
-      "Alhamdulillah, Al-Kitab International Academy organizes educational and Islamic competitions every year, providing children, teenagers, and students from diverse educational backgrounds with opportunities to participate and showcase their knowledge and abilities. Our goal goes beyond organizing competitions. We strive to develop a deeper connection between people and Islam, particularly by introducing the younger generation to the blessed Seerah of Prophet Muhammad ﷺ and inspiring them to follow his teachings in their daily lives.",
+      "Alhamdulillah, Al-Kitab International Quran Academy organizes educational and Islamic competitions every year, providing children, teenagers, and students from diverse educational backgrounds with opportunities to participate and showcase their knowledge and abilities. Our goal goes beyond organizing competitions. We strive to develop a deeper connection between people and Islam, particularly by introducing the younger generation to the blessed Seerah of Prophet Muhammad ﷺ and inspiring them to follow his teachings in their daily lives.",
     highlightsTitle: "Under the Guidance of Esteemed Scholars",
     highlights:
       "Alhamdulillah, this noble educational initiative is being launched under the guidance and supervision of distinguished Muftis, renowned Islamic scholars, and respected teachers and mentors from Abbottabad. Our mission is to raise awareness of the Seerah of Prophet Muhammad ﷺ among the younger generation and inspire them to learn about his blessed life and teachings. We pray that Allah Almighty accepts this humble effort and grants it success. Ameen.",
   },
   syllabus: {
     urdu:
-      "رحمتِ کائنات ﷺ کوئز کمپیٹیشن 2026–27 کا نصاب صرف دو کتابوں پر مشتمل ہے۔ پہلی کتاب الرحیق المختوم ہے، جس کے مصنف مولانا صفی الرحمن مبارک پوری رحمہ اللہ ہیں، اور دوسری کتاب آسان سیرت محمد ﷺ ہے، جس کے مصنف مفتی مصطفیٰ عزیز ہیں۔ اہم وضاحت: سیرت کے نصاب میں صرف یہی دو کتابیں شامل ہیں۔ ان کے علاوہ کوئی تیسری کتاب نصاب کا حصہ نہیں ہے۔ لہٰذا ان دونوں کتب کے مطابق اپنی تیاری مکمل کریں۔",
+      "رحمتِ کائنات ﷺ کوئز کمپیٹیشن 2026–27 کا نصاب صرف دو کتابوں پر مشتمل ہے۔ پہلی کتاب الرحیق المختوم ہے، جس کے مصنف مولانا صفی الرحمن مبارک پوری رحمہ اللہ ہیں، اور دوسری کتاب آسان سیرت محمد ﷺ ہے، جس کے مصنف مفتی مصطفٰی عزیز دامت برکاتہم ہیں۔ اہم وضاحت: سیرت کے نصاب میں صرف یہی دو کتابیں شامل ہیں۔ ان کے علاوہ کوئی تیسری کتاب نصاب کا حصہ نہیں ہے۔ لہٰذا ان دونوں کتب کے مطابق اپنی تیاری مکمل کریں۔",
     english:
-      "The Rahmat-e-Kainat ﷺ Quiz Competition 2026–27 syllabus contains only two books: Ar-Raheeq Al-Makhtum by Maulana Safi-ur-Rahman Mubarakpuri, and Aasan Seerat Muhammad ﷺ by Mufti Mustafa Aziz. No third book is part of the syllabus. Prepare completely from these two books.",
+      "The Rahmat-e-Kainat ﷺ Quiz Competition 2026–27 syllabus contains only two books: Ar-Raheeq Al-Makhtum by Maulana Safi-ur-Rahman Mubarakpuri, and Aasan Seerat Muhammad ﷺ by Mufti Mustafa Aziz, damat barakatuhum. No third book is part of the syllabus. Prepare completely from these two books.",
   },
   rewardsNote:
     "These prizes are an encouragement. The real success is to read the Seerah of the Messenger of Allah ﷺ, understand it, and try to live by it. Register today and begin this blessed journey.",
@@ -162,7 +163,7 @@ export const defaultSettings = {
     },
     {
       q: "Which books are included in the syllabus?",
-      a: "The complete quiz is based only on Ar-Raheeq Al-Makhtum by Maulana Safi-ur-Rahman Mubarakpuri and Aasan Seerat Muhammad ﷺ by Mufti Mustafa Aziz. No other book is included.",
+      a: "The complete quiz is based only on Ar-Raheeq Al-Makhtum by Maulana Safi-ur-Rahman Mubarakpuri and Aasan Seerat Muhammad ﷺ by Mufti Mustafa Aziz, damat barakatuhum. No other book is included.",
     },
   ],
 };

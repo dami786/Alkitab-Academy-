@@ -42,14 +42,9 @@ export default function Navbar() {
       <nav className="border-b-4 border-gold bg-pine text-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex min-w-0 flex-1 items-center gap-2.5" onClick={() => setOpen(false)}>
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 ring-1 ring-gold/50">
-              <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden="true">
-                <path d="M6 22c4-8 16-8 20 0" fill="none" stroke="#E4B15C" strokeWidth="2" />
-                <path d="M8 14c3 4 13 4 16 0v8H8v-8z" fill="#FBF6F1" />
-              </svg>
-            </span>
+            <img src="/logo.png" alt="" className="h-12 w-12 shrink-0 rounded-full bg-white object-contain p-0.5" />
             <span className="min-w-0">
-              <span className="block truncate text-sm font-extrabold leading-tight">Al-Kitab International Academy</span>
+              <span className="block truncate text-sm font-extrabold leading-tight">Al-Kitab International Quran Academy</span>
               <span className="mt-0.5 block truncate text-[11px] font-medium leading-tight text-gold sm:hidden">Quiz Competition 2026–27</span>
               <span className="mt-0.5 hidden truncate text-[11px] font-medium leading-tight text-gold sm:block">
                 Rahmat-e-Kainat <span className="honorific">ﷺ</span> Quiz Competition 2026–27

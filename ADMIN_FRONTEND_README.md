@@ -14,6 +14,45 @@ Authorization: Bearer <token>
 
 The token is saved in `localStorage` under `alkitab_admin` after login.
 
+## Cursor prompt — contact messages
+
+Frontend wale Cursor chat mein neeche wala block paste karo. Woh isi repo ke `frontend` mein Messages page bana dega.
+
+```text
+Build the admin Messages screen in this frontend. Do not create a new app.
+
+Context
+- Admin page already exists at frontend/src/pages/Admin.jsx, route /admin.
+- API helper is frontend/src/api.js: use request(url, options) and authHeader().
+- authHeader() sends Authorization: Bearer <token> from localStorage key alkitab_admin.
+- request() already prefixes the live API https://alkitab-academy.onrender.com. Call paths like "/api/admin/messages", not a full URL.
+- Public contact form is frontend/src/pages/Contact.jsx. It already POSTs JSON to /api/contact with { name, mobile, email, message }. Leave that form working. Name is required (min 3). Message is required (min 10).
+
+What to build
+On the admin page, keep the existing tabs and add or finish a "Messages" tab.
+
+When the logged-in admin opens Messages:
+1. GET /api/admin/messages with headers: authHeader().
+2. The JSON is { messages: [ { id, name, mobile, email, message, read, createdAt } ] }.
+3. Save that array in state and render one card per message.
+4. Each card shows:
+   - name
+   - mobile and email (if missing, show "No mobile" or "No email")
+   - the full message text
+   - createdAt formatted with toLocaleString()
+   - a "New" badge when read is false
+5. A "Mark as read" button, only when read is false, calls:
+   PATCH /api/admin/messages/:id/read
+   with headers: authHeader()
+   Then set that message's read to true in state. Do not reload the whole page.
+6. If the list is empty, show "No messages yet."
+7. If the request fails, show the error message already used by the admin page.
+
+Load messages when the Messages tab is selected and a token exists. Do not fetch them before login.
+
+Do not change registration, website content, or the contact form except to keep the POST /api/contact body as { name, mobile, email, message }.
+```
+
 ## Contact form messages
 
 The public contact page is `frontend/src/pages/Contact.jsx`. Submit calls:

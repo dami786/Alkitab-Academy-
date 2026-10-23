@@ -283,12 +283,12 @@ export default function Register() {
                   <p>{payment.jazzCashName || payment.easypaisaName || "Account name will be published by the academy."}</p>
                   <p>{payment.jazzCashNumber || "Number not added yet."}</p>
                 </div>
-                <div>
-                  <p className="font-semibold">Meezan Bank</p>
-                  <p>{payment.bankName || "Bank name not added yet."}</p>
-                  <p>{payment.accountTitle}</p>
-                  <p>{payment.accountNumber || "Account number not added yet."}</p>
-                  {payment.iban && <p>IBAN: {payment.iban}</p>}
+                <div className="rounded-xl bg-gold/30 p-3 ring-2 ring-gold">
+                  <p className="font-extrabold text-pine">Meezan Bank</p>
+                  <p className="mt-1 font-extrabold">{payment.accountTitle || "KHIZAR HAYAT ABBASI"}</p>
+                  <p className="font-extrabold tracking-wide">Account: {payment.accountNumber || "15810110903850"}</p>
+                  <p className="font-extrabold">IBAN: {payment.iban || "PK16MEZN0015810110903850"}</p>
+                  <p className="font-semibold">{payment.branch || "ABBOTTABAD CITY BRANCH"}</p>
                 </div>
               </div>
             </div>
