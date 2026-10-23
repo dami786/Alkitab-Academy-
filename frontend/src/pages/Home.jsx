@@ -188,6 +188,12 @@ export default function Home() {
           <div className="card p-7 md:p-10">
             <p className="urdu text-base text-ink" dir="rtl"><Honorific>{content.syllabus.urdu}</Honorific></p>
             <p className="mt-6 leading-8 text-muted">{content.syllabus.english}</p>
+            <div className="urdu mt-8 rounded-2xl bg-cream px-5 py-6 text-center text-base text-ink" dir="rtl">
+              <p className="text-lg font-bold text-pine">📌 اہم نوٹ</p>
+              <p className="mt-3 font-extrabold">📊 60 فیصد سوالات الرحیق المختوم سے ہوں گے۔</p>
+              <p className="mt-2 font-extrabold"><Honorific>📊 40 فیصد سوالات آسان سیرت محمد ﷺ سے ہوں گے۔</Honorific></p>
+              <p className="mt-4">تمام شرکاء ان دونوں کتابوں کا اچھی طرح مطالعہ کریں۔ جزاکم اللہ خیراً۔</p>
+            </div>
           </div>
           <div className="mt-6 grid items-stretch gap-6 md:grid-cols-2">
             {content.books.map((book, index) => {
@@ -212,7 +218,8 @@ export default function Home() {
               );
             })}
           </div>
-          <p className="mx-auto mt-8 max-w-3xl rounded-2xl bg-gold/30 px-5 py-4 text-center text-base font-extrabold leading-7 text-pine">
+          <p className="book-glow mx-auto mt-8 max-w-3xl rounded-2xl border border-gold bg-gold/30 px-5 py-4 text-center text-base font-extrabold leading-7 text-pine">
+            <span aria-hidden="true">📚 </span>
             If you want to purchase these books, please contact this number:{" "}
             <a href="tel:+923473371350" className="underline">+92347-3371350</a>
           </p>

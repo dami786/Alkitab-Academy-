@@ -43,6 +43,25 @@ p.urdu {
   padding-bottom: 0.65em;
 }
 
+@keyframes book-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(228, 177, 92, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 28px 8px rgba(228, 177, 92, 0.95);
+  }
+}
+
+.book-glow {
+  animation: book-glow 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-glow {
+    animation: none;
+  }
+}
+
 .gold-line {
   width: 84px;
   height: 3px;
