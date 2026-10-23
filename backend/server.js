@@ -31,7 +31,9 @@ function isAllowedOrigin(origin) {
   try {
     const { protocol, hostname } = new URL(origin);
     const host = hostname.toLowerCase();
-    return protocol === "https:" && host.endsWith(".vercel.app") && (host.includes("alkitab") || host.includes("alkitaab"));
+    if (protocol !== "https:") return false;
+    if (host === "alkitabinternationalacademy.com" || host === "www.alkitabinternationalacademy.com") return true;
+    return host.endsWith(".vercel.app") && (host.includes("alkitab") || host.includes("alkitaab"));
   } catch {
     return false;
   }
