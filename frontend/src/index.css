@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream text-ink antialiased;
+}
+
+::selection {
+  background: #e4b15c;
+  color: #4a1520;
+}
+
+.honorific {
+  display: inline-block;
+  margin-inline: 0.12em;
+  padding-inline: 0.08em;
+  font-family: "Times New Roman", serif;
+  font-size: 0.62em;
+  font-weight: 400;
+  line-height: 1;
+  vertical-align: 0.08em;
+}
+
+.urdu {
+  font-family: "Noto Nastaliq Urdu", serif;
+  font-weight: 500;
+  line-height: 2.8 !important;
+}
+
+p.urdu {
+  line-height: 3.75 !important;
+  padding-top: 0.4em;
+  padding-bottom: 0.65em;
+}
+
+.gold-line {
+  width: 84px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #e4b15c, transparent);
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-pine px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-pineDark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-pine/25 bg-white px-6 py-3 text-sm font-semibold text-pine transition hover:border-pine hover:bg-pine/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine;
+}
+
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gold px-6 py-3 text-sm font-bold text-pineDark transition hover:bg-[#f0c97a];
+}
+
+.field {
+  @apply w-full rounded-xl border border-[#eadfd8] bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-[#9a8884] focus:border-pine focus:ring-4 focus:ring-pine/10;
+}
+
+.label {
+  @apply mb-1.5 block text-sm font-semibold text-ink;
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-[#eadfd8] bg-white shadow-card;
+  }
+}
+
+.pattern {
+  background-color: #fbf6f1;
+  background-image: radial-gradient(rgba(124, 45, 58, 0.12) 0.7px, transparent 0.7px);
+  background-size: 18px 18px;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-card {
+    box-shadow: none !important;
+    border-color: #e4b15c !important;
+  }
+}
