@@ -42,7 +42,7 @@ export default function Navbar() {
       <nav className="border-b-4 border-gold bg-pine text-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex min-w-0 flex-1 items-center gap-2.5" onClick={() => setOpen(false)}>
-            <img src="/logo.png" alt="" className="h-12 w-12 shrink-0 rounded-full bg-white object-contain p-0.5" />
+            <img src="/quiz-logo.png" alt="" className="h-14 w-14 shrink-0 rounded-full object-cover" />
             <span className="min-w-0">
               <span className="block truncate text-sm font-extrabold leading-tight">Al-Kitab International Quran Academy</span>
               <span className="mt-0.5 block truncate text-[11px] font-medium leading-tight text-gold sm:hidden">Quiz Competition 2026–27</span>
