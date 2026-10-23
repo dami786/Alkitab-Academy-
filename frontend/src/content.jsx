@@ -29,6 +29,17 @@ function applySiteCopy(settings) {
     image: ["/book-raheeq.jpg", "/book-aasan.png"][index] || book.image,
     author: index === 1 ? "مفتی مصطفٰی عزیز دامت برکاتہم" : book.author,
   }));
+  next.feeAmount = 310;
+  next.feeNote =
+    "Transfer the PKR 310 registration fee through EasyPaisa, JazzCash, or the Meezan Bank account, then submit the transaction ID and payment receipt. Your roll number is issued when the academy accepts your registration.";
+  next.faq = (next.faq || []).map((item) =>
+    String(item.q || "").toLowerCase().includes("registration fee")
+      ? {
+          ...item,
+          a: "The registration fee is only PKR 310. Pay it through EasyPaisa, JazzCash, or the Meezan Bank account, then enter the transaction ID and upload the payment receipt with your registration. The academy accepts or rejects the registration. The roll number is issued when the registration is accepted.",
+        }
+      : item
+  );
   next.payment = {
     ...next.payment,
     bankName: "Meezan Bank",

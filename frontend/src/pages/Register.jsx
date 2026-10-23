@@ -165,6 +165,7 @@ export default function Register() {
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-goldDeep">Admission</p>
         <h1 className="mt-2 text-2xl font-extrabold text-pine">Registration Form</h1>
         <p className="urdu mt-3 text-sm text-muted" dir="rtl">داخلہ فارم</p>
+        <p className="mt-4 rounded-xl bg-gold/30 px-3 py-2 text-sm font-extrabold leading-6 text-pine">Registration fee is only PKR 310.</p>
         <ol className="mt-6 space-y-3">
           {steps.map((label, index) => (
             <li key={label} className="flex items-center gap-3 text-sm font-semibold">
@@ -270,8 +271,8 @@ export default function Register() {
           <div className="space-y-5">
             <div className="rounded-2xl bg-cream p-5 text-sm leading-7 text-ink">
               <p className="font-bold text-pine">Fee payment</p>
+              <p className="mt-2 rounded-xl bg-gold/30 px-3 py-2 text-base font-extrabold text-pine">Registration fee is only PKR 310.</p>
               <p className="mt-2">{content.feeNote}</p>
-              {Number(content.feeAmount) > 0 && <p className="mt-2 font-extrabold">Registration fee: PKR {Number(content.feeAmount).toLocaleString()}</p>}
               <div className="mt-4 grid gap-3 md:grid-cols-3">
                 <div>
                   <p className="font-semibold">EasyPaisa</p>

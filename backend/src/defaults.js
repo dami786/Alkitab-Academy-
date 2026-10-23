@@ -2,9 +2,9 @@ export const defaultSettings = {
   registrationOpen: true,
   announcement: "",
   maxAge: 25,
-  feeAmount: 0,
+  feeAmount: 310,
   feeNote:
-    "Transfer the registration fee through EasyPaisa, JazzCash, or the Meezan Bank account, then submit the transaction ID and payment receipt. Your roll number is issued when the academy accepts your registration.",
+    "Transfer the PKR 310 registration fee through EasyPaisa, JazzCash, or the Meezan Bank account, then submit the transaction ID and payment receipt. Your roll number is issued when the academy accepts your registration.",
   payment: {
     easypaisaName: "Khizar Hayyat Abbasi",
     easypaisaNumber: "+92313-5671167",
@@ -151,7 +151,7 @@ export const defaultSettings = {
     },
     {
       q: "What is the registration fee and how do I pay?",
-      a: "Pay the announced fee through EasyPaisa, JazzCash, or the Meezan Bank account, then enter the transaction ID and upload the payment receipt with your registration. The academy accepts or rejects the registration. The roll number is issued when the registration is accepted.",
+      a: "The registration fee is only PKR 310. Pay it through EasyPaisa, JazzCash, or the Meezan Bank account, then enter the transaction ID and upload the payment receipt with your registration. The academy accepts or rejects the registration. The roll number is issued when the registration is accepted.",
     },
     {
       q: "When will I receive my roll number and admit card?",

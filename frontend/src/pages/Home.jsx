@@ -68,6 +68,7 @@ export default function Home() {
             )}
             <Link to="/status" className="btn-outline px-8">Check Registration Status</Link>
           </div>
+          <p className="mt-4 text-sm font-extrabold text-pine">Registration fee is only PKR 310.</p>
           <div className="mx-auto mt-12 overflow-hidden rounded-[28px] border border-gold/50 bg-white shadow-card">
             <img src="/hero.jpg" alt="Rahmat-e-Kainat Quiz Competition 2026-27, coming soon" className="h-auto w-full" decoding="async" fetchPriority="high" />
           </div>
@@ -237,6 +238,9 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <p className="mx-auto mt-8 max-w-3xl rounded-2xl bg-gold/30 px-5 py-4 text-center text-base font-extrabold text-pine">
+            Registration fee is only PKR 310.
+          </p>
         </div>
       </section>
 
@@ -302,6 +306,7 @@ export default function Home() {
             <p className="urdu mx-auto mt-4 max-w-2xl text-base text-white/85" dir="rtl">
               <Honorific>آج ہی رجسٹریشن کریں اور سیرتِ مصطفیٰ ﷺ کے اس بابرکت سفر کا آغاز کریں۔</Honorific>
             </p>
+            <p className="mt-4 text-sm font-extrabold text-gold">Registration fee is only PKR 310.</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/register" className="btn-gold">Apply for Admission</Link>
               <Link to="/contact" className="btn-outline !border-white/30 !bg-transparent !text-white">Contact the Academy</Link>
