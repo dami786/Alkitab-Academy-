@@ -562,7 +562,7 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
     const patch = {};
     if (action === "verify-payment" || action === "reject-payment") {
       throw new Error("Payment is not a separate step. Accept or reject the registration.");
-    } else if (action === "approve") {
+    } else if (action === "approve" || action === "accept") {
       patch.status = "approved";
       patch.rollNumber = record.rollNumber || (await nextNumber("roll", "RN"));
       const meta = await getMeta();
@@ -587,7 +587,7 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
     const updated = { ...record, ...patch };
     let emailSent = false;
     let emailError = "";
-    if (action === "approve" || action === "reject") {
+    if (action === "approve" || action === "accept" || action === "reject") {
       const email = await sendDecisionEmail(updated);
       emailSent = email.sent;
       emailError = email.error;

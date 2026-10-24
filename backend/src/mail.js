@@ -4,16 +4,20 @@ function siteUrl() {
   return (process.env.SITE_URL || "https://www.alkitabinternationalacademy.com").replace(/\/$/, "");
 }
 
+function setting(name) {
+  return String(process.env[name] || "").trim().replace(/^["']|["']$/g, "");
+}
+
 function mailer() {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const host = setting("SMTP_HOST");
+  const user = setting("SMTP_USER");
+  const pass = setting("SMTP_PASS").replace(/\s+/g, "");
   if (!host || !user || !pass) return null;
-  const port = Number(process.env.SMTP_PORT || 587);
+  const port = Number(setting("SMTP_PORT") || 587);
   return nodemailer.createTransport({
     host,
     port,
-    secure: port === 465 || process.env.SMTP_SECURE === "true",
+    secure: port === 465,
     auth: { user, pass },
   });
 }
@@ -59,7 +63,10 @@ export async function sendDecisionEmail(record) {
   const accepted = record.status === "approved";
   try {
     await transport.sendMail({
-      from: process.env.MAIL_FROM || process.env.SMTP_USER,
+      from: {
+        name: "Al-Kitab International Quran Academy",
+        address: setting("SMTP_USER"),
+      },
       to: record.email,
       subject: accepted
         ? "Your Rahmat-e-Kainat Quiz registration has been accepted"
@@ -67,8 +74,9 @@ export async function sendDecisionEmail(record) {
       text: accepted ? acceptText(record) : rejectText(record),
     });
     return { sent: true, error: "" };
-  } catch {
-    console.error("Decision email failed");
-    return { sent: false, error: "The email could not be sent. Check the mail settings on the server." };
+  } catch (error) {
+    const detail = String(error?.response || error?.message || "Mail server rejected the message").slice(0, 180);
+    console.error("Decision email failed", detail);
+    return { sent: false, error: detail };
   }
 }

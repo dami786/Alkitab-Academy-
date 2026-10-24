@@ -70,7 +70,9 @@ export default function Admin() {
       await openRow(detail.id);
       await loadRegistrations();
       if (action === "approve" || action === "reject") {
-        setNote(data.emailSent ? "Saved. Email sent to the candidate." : `Saved. Email was not sent. ${data.emailError || ""}`.trim());
+        if (data.emailSent) setNote("Saved. Email sent to the candidate.");
+        else if (data.emailError) setNote(`Saved. Email was not sent. ${data.emailError}`);
+        else setNote("Saved. Email was not sent. Deploy the latest backend and add the SMTP variables on Render.");
       } else {
         setNote("Saved.");
       }
@@ -214,7 +216,9 @@ export default function Admin() {
           </button>
         ))}
       </div>
-      {note && <p className="mx-auto max-w-6xl px-4 text-sm font-semibold text-pine">{note}</p>}
+      {note && (
+        <p className={`mx-auto max-w-6xl px-4 text-sm font-semibold ${note.includes("not sent") ? "text-red-700" : "text-pine"}`}>{note}</p>
+      )}
 
       {tab === "Overview" && stats && (
         <section className="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:grid-cols-3">
