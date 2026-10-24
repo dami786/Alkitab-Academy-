@@ -18,6 +18,7 @@ import {
   saveSettings,
 } from "./src/db.js";
 import { signToken, verifyPassword, verifyToken } from "./src/auth.js";
+import { sendDecisionEmail } from "./src/mail.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -409,15 +410,23 @@ app.post("/api/admit-card", async (req, res, next) => {
       res.status(404).json({ error: "Registration number and mobile number do not match." });
       return;
     }
-    if (record.status !== "approved" || !record.rollNumber) {
+    if (record.status === "rejected") {
       res.status(403).json({
-        error: "The admit card is available after the academy accepts the registration.",
-        status: toPublicStatus(record),
+        ready: false,
+        error: "This registration was not accepted. Please contact the academy if you have a question.",
+      });
+      return;
+    }
+    if (record.status !== "approved" || !record.rollNumber) {
+      res.json({
+        ready: false,
+        message: "Your roll number slip is not ready yet. Please check again in a few days. Keep your registration number and the mobile number you used in the form.",
       });
       return;
     }
     const settings = await getPublicSettings();
     res.json({
+      ready: true,
       ...buildSlip(record, settings),
       photo: await readFileDataUrl(record.photoId),
     });
@@ -575,6 +584,17 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
       throw new Error("Unknown action.");
     }
     await registrations().updateOne({ id: record.id }, { $set: patch });
+    const updated = { ...record, ...patch };
+    let emailSent = false;
+    let emailError = "";
+    if (action === "approve" || action === "reject") {
+      const email = await sendDecisionEmail(updated);
+      emailSent = email.sent;
+      emailError = email.error;
+      if (email.sent) {
+        await registrations().updateOne({ id: record.id }, { $set: { decisionEmailStatus: updated.status } });
+      }
+    }
     res.json({
       id: record.id,
       status: patch.status || record.status,
@@ -585,6 +605,8 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
       examTime: patch.examTime ?? record.examTime,
       centerConfirmed: patch.centerConfirmed ?? record.centerConfirmed === true,
       examVenue: patch.examVenue ?? record.examVenue,
+      emailSent,
+      emailError,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -598,9 +620,11 @@ app.delete("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
       res.status(404).json({ error: "Registration not found." });
       return;
     }
-    await deleteFile(record.photoId);
-    await deleteFile(record.receiptId);
-    await registrations().deleteOne({ id: record.id });
+    await Promise.all([
+      deleteFile(record.photoId),
+      deleteFile(record.receiptId),
+      registrations().deleteOne({ id: record.id }),
+    ]);
     res.json({ ok: true, id: record.id, regNumber: record.regNumber });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -775,11 +799,25 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: "Something went wrong. Please try again." });
 });
 
+async function sendMissedDecisionEmails() {
+  const records = await registrations().find({ status: { $in: ["approved", "rejected"] } }).toArray();
+  let sent = 0;
+  for (const record of records) {
+    if (record.decisionEmailStatus === record.status) continue;
+    const email = await sendDecisionEmail(record);
+    if (!email.sent) continue;
+    await registrations().updateOne({ id: record.id }, { $set: { decisionEmailStatus: record.status } });
+    sent += 1;
+  }
+  if (sent) console.log(`Decision emails sent to ${sent} earlier candidates.`);
+}
+
 connectDb()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Al-Kitab quiz API running on http://localhost:${PORT}`);
     });
+    sendMissedDecisionEmails().catch((error) => console.error(error));
   })
   .catch((error) => {
     console.error(error);

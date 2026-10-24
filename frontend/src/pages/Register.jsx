@@ -141,7 +141,8 @@ export default function Register() {
       <div className="mx-auto max-w-xl px-4 py-16 text-center">
         <div className="card p-8">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Registration received</p>
-          <h1 className="mt-3 text-3xl font-extrabold text-pine">Your registration number</h1>
+          <p className="mt-4 rounded-2xl bg-gold/30 px-4 py-3 text-base font-extrabold text-pine">Your request has been received.</p>
+          <h1 className="mt-6 text-3xl font-extrabold text-pine">Your registration number</h1>
           <p className="mt-6 rounded-2xl bg-cream px-4 py-5 text-3xl font-extrabold tracking-wider text-pine">{regNumber}</p>
           <p className="mt-4 text-sm leading-7 text-muted">
             Save this number. Your roll number and admit card will be available after the academy verifies the fee and approves the application.
@@ -157,6 +158,9 @@ export default function Register() {
             <Link to="/status" className="btn-primary">Check Status</Link>
             <Link to="/" className="btn-outline">Back to Home</Link>
           </div>
+          <p className="mt-6 text-sm font-semibold leading-7 text-pine">
+            If your request is accepted or rejected, you will receive an email.
+          </p>
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ export default function AdmitCard() {
   const [regNumber, setRegNumber] = useState(params.get("reg") || "");
   const [mobile, setMobile] = useState("");
   const [card, setCard] = useState(null);
+  const [waiting, setWaiting] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -14,6 +15,7 @@ export default function AdmitCard() {
     event.preventDefault();
     setBusy(true);
     setError("");
+    setWaiting("");
     setCard(null);
     try {
       const data = await request("/api/admit-card", {
@@ -21,6 +23,10 @@ export default function AdmitCard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ regNumber, mobile }),
       });
+      if (data.ready === false) {
+        setWaiting(data.message);
+        return;
+      }
       setCard(data);
     } catch (err) {
       setError(err.message);
@@ -48,6 +54,7 @@ export default function AdmitCard() {
             <button className="btn-primary" disabled={busy}>{busy ? "Opening…" : "Open admit card"}</button>
           </div>
         </form>
+        {waiting && <p className="mt-4 rounded-2xl bg-gold/30 px-4 py-4 text-base font-extrabold leading-7 text-pine">{waiting}</p>}
         {error && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
       </div>
 

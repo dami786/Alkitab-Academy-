@@ -62,14 +62,18 @@ export default function Admin() {
   async function act(action, extra = {}) {
     setNote("");
     try {
-      await request(`/api/admin/registrations/${detail.id}`, {
+      const data = await request(`/api/admin/registrations/${detail.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", ...authHeader() },
         body: JSON.stringify({ action, ...extra }),
       });
       await openRow(detail.id);
       await loadRegistrations();
-      setNote("Saved.");
+      if (action === "approve" || action === "reject") {
+        setNote(data.emailSent ? "Saved. Email sent to the candidate." : `Saved. Email was not sent. ${data.emailError || ""}`.trim());
+      } else {
+        setNote("Saved.");
+      }
     } catch (err) {
       setNote(err.message);
     }
