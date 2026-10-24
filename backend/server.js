@@ -18,7 +18,7 @@ import {
   saveSettings,
 } from "./src/db.js";
 import { signToken, verifyPassword, verifyToken } from "./src/auth.js";
-import { sendDecisionEmail } from "./src/mail.js";
+import { prepareMail, sendDecisionEmail } from "./src/mail.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -817,7 +817,9 @@ connectDb()
     app.listen(PORT, () => {
       console.log(`Al-Kitab quiz API running on http://localhost:${PORT}`);
     });
-    sendMissedDecisionEmails().catch((error) => console.error(error));
+    prepareMail().finally(() => {
+      sendMissedDecisionEmails().catch((error) => console.error(error));
+    });
   })
   .catch((error) => {
     console.error(error);

@@ -1,18 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { request } from "../api";
 
 export default function AdmitCard() {
   const [params] = useSearchParams();
   const [regNumber, setRegNumber] = useState(params.get("reg") || "");
-  const [mobile, setMobile] = useState("");
+  const [mobile, setMobile] = useState(params.get("mobile") || "");
   const [card, setCard] = useState(null);
   const [waiting, setWaiting] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  async function load(event) {
-    event.preventDefault();
+  async function openCard(nextReg, nextMobile) {
     setBusy(true);
     setError("");
     setWaiting("");
@@ -21,10 +20,10 @@ export default function AdmitCard() {
       const data = await request("/api/admit-card", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ regNumber, mobile }),
+        body: JSON.stringify({ regNumber: nextReg, mobile: nextMobile }),
       });
       if (data.ready === false) {
-        setWaiting(data.message);
+        setWaiting(data.message || data.error || "");
         return;
       }
       setCard(data);
@@ -33,6 +32,17 @@ export default function AdmitCard() {
     } finally {
       setBusy(false);
     }
+  }
+
+  useEffect(() => {
+    const nextReg = params.get("reg") || "";
+    const nextMobile = params.get("mobile") || "";
+    if (nextReg && nextMobile) openCard(nextReg, nextMobile);
+  }, []);
+
+  async function load(event) {
+    event.preventDefault();
+    await openCard(regNumber, mobile);
   }
 
   return (
