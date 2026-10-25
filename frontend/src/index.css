@@ -6,6 +6,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 7rem;
+}
+
 body {
   @apply bg-cream text-ink antialiased;
 }

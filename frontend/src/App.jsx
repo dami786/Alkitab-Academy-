@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ContentProvider } from "./content.jsx";
 import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 import Seo from "./components/Seo";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <ContentProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Seo />
         <Routes>
           <Route element={<Layout />}>
