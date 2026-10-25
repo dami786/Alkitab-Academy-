@@ -183,7 +183,7 @@ export default function Register() {
     <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[280px_1fr]">
       <aside className="card h-fit p-6">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-goldDeep">Admission</p>
-        <h1 className="mt-2 text-2xl font-extrabold text-pine">Registration Form</h1>
+        <h1 className="mt-2 text-2xl font-extrabold text-pine">Quiz registration</h1>
         <p className="urdu mt-3 text-sm text-muted" dir="rtl">داخلہ فارم</p>
         <p className="mt-4 rounded-xl bg-gold/30 px-3 py-2 text-sm font-extrabold leading-6 text-red-700">Registration fee is only PKR 310.</p>
         <ol className="mt-6 space-y-3">

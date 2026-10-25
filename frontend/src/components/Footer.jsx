@@ -11,6 +11,19 @@ const courses = [
   "Arabic Language Course",
 ];
 
+function phoneLink(value) {
+  const digits = String(value).replace(/\D/g, "");
+  if (digits.startsWith("92")) return `tel:+${digits}`;
+  if (digits.startsWith("0")) return `tel:+92${digits.slice(1)}`;
+  return `tel:+${digits}`;
+}
+
+function whatsAppLink(value) {
+  const digits = String(value).replace(/\D/g, "");
+  const international = digits.startsWith("92") ? digits : digits.replace(/^0/, "92");
+  return `https://wa.me/${international}`;
+}
+
 const reasons = [
   "No age limit",
   "Flexible classes via WhatsApp or Zoom",
@@ -113,14 +126,18 @@ export default function Footer() {
             <li><a href="/#eligibility" className="hover:text-gold">Eligibility</a></li>
             <li><a href="/#syllabus" className="hover:text-gold">Syllabus</a></li>
             <li><a href="/#timeline" className="hover:text-gold">Timeline</a></li>
+            <li><Link to="/register" className="hover:text-gold">Quiz Registration</Link></li>
             <li><Link to="/status" className="hover:text-gold">Registration Status</Link></li>
+            <li><Link to="/admit-card" className="hover:text-gold">Admit Card</Link></li>
+            <li><Link to="/results" className="hover:text-gold">Quiz Results</Link></li>
+            <li><Link to="/contact" className="hover:text-gold">Contact the Academy</Link></li>
           </ul>
           <h2 className="mt-6 text-sm font-bold uppercase tracking-[0.18em] text-gold">Support</h2>
           <ul className="mt-4 space-y-2 text-sm text-white/80">
             <li>Address: {contact.address || "Abbottabad, Pakistan"}</li>
-            <li className="break-all">Email: {contact.email || "alkitabquranacademy279@gmail.com"}</li>
-            <li>Helpline: {contact.phone || "03135671167"}</li>
-            <li>WhatsApp: {contact.whatsapp || "03135671167"}</li>
+            <li className="break-all">Email: <a className="hover:text-gold" href={`mailto:${contact.email || "alkitabquranacademy279@gmail.com"}`}>{contact.email || "alkitabquranacademy279@gmail.com"}</a></li>
+            <li>Helpline: <a className="hover:text-gold" href={phoneLink(contact.phone || "03135671167")}>{contact.phone || "03135671167"}</a></li>
+            <li>WhatsApp: <a className="hover:text-gold" href={whatsAppLink(contact.whatsapp || "03135671167")}>{contact.whatsapp || "03135671167"}</a></li>
             <li>Timing: {contact.hours || "Monday – Saturday"}</li>
           </ul>
         </div>

@@ -2,8 +2,10 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ContentProvider } from "./content.jsx";
 import Layout from "./components/Layout";
+import Seo from "./components/Seo";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import NotFound from "./pages/NotFound";
 
 const Status = lazy(() => import("./pages/Status"));
 const AdmitCard = lazy(() => import("./pages/AdmitCard"));
@@ -19,6 +21,7 @@ export default function App() {
   return (
     <ContentProvider>
       <BrowserRouter>
+        <Seo />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -27,6 +30,7 @@ export default function App() {
             <Route path="/admit-card" element={<AdmitCard />} />
             <Route path="/results" element={<Results />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="/admin" element={<Suspense fallback={<PageFallback />}><Admin /></Suspense>} />
         </Routes>

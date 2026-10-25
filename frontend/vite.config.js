@@ -46,7 +46,7 @@ function seoFiles() {
 }
 
 export default defineConfig({
-  plugins: [react(), spaFallback(), seoFiles()],
+  plugins: [react(), seoFiles(), spaFallback()],
   server: {
     port: 5173,
     proxy: {

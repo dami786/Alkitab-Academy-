@@ -2,6 +2,19 @@ import { useState } from "react";
 import { useContent } from "../content.jsx";
 import { request } from "../api";
 
+function phoneLink(value) {
+  const digits = String(value).replace(/\D/g, "");
+  if (digits.startsWith("92")) return `tel:+${digits}`;
+  if (digits.startsWith("0")) return `tel:+92${digits.slice(1)}`;
+  return `tel:+${digits}`;
+}
+
+function whatsAppLink(value) {
+  const digits = String(value).replace(/\D/g, "");
+  const international = digits.startsWith("92") ? digits : digits.replace(/^0/, "92");
+  return `https://wa.me/${international}`;
+}
+
 export default function Contact() {
   const { content, error } = useContent();
   const [form, setForm] = useState({ name: "", mobile: "", email: "", message: "" });
@@ -39,18 +52,22 @@ export default function Contact() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-14">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Contact support</p>
-      <h1 className="mt-2 text-4xl font-extrabold text-pine">Talk to the academy</h1>
-      <p className="mt-3 max-w-2xl text-muted">Office hours: {contact.hours}. The academy can update these contact details from the office panel.</p>
+      <h1 className="mt-2 text-4xl font-extrabold text-pine">Contact the academy</h1>
+      <p className="mt-3 max-w-2xl text-muted">Send a message to Al-Kitab International Quran Academy. Office hours: {contact.hours}.</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map(([label, value]) => (
           <article key={label} className="card p-5">
             <h2 className="text-sm font-bold uppercase tracking-wider text-goldDeep">{label}</h2>
             {label === "Email" && value.includes("@") ? (
-              <p className="mt-2 text-sm font-semibold leading-6 text-pine">
+              <a href={`mailto:${value}`} className="mt-2 block text-sm font-semibold leading-6 text-pine">
                 {value.split("@")[0]}
                 <br />
                 @{value.split("@")[1]}
-              </p>
+              </a>
+            ) : label === "Helpline" ? (
+              <a href={phoneLink(value)} className="mt-2 block font-semibold text-pine">{value}</a>
+            ) : label === "WhatsApp" ? (
+              <a href={whatsAppLink(value)} className="mt-2 block font-semibold text-pine">{value}</a>
             ) : (
               <p className="mt-2 font-semibold text-pine">{value}</p>
             )}

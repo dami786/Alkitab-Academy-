@@ -1,21 +1,15 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ADMIN_PAGE, PUBLIC_PAGES, SITE_URL, applyHead, assertSeoPages, htmlFileFor } from "./src/seo.js";
 
 const frontendRoot = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(frontendRoot, "..");
 
-export const SITE_URL = "https://alkitabinternationalacademy.com";
+const PUBLIC_ROUTES = PUBLIC_PAGES;
 
-const PUBLIC_ROUTES = [
-  { path: "/", source: "src/pages/Home.jsx" },
-  { path: "/register", source: "src/pages/Register.jsx" },
-  { path: "/status", source: "src/pages/Status.jsx" },
-  { path: "/admit-card", source: "src/pages/AdmitCard.jsx" },
-  { path: "/results", source: "src/pages/Results.jsx" },
-  { path: "/contact", source: "src/pages/Contact.jsx" },
-];
+export { SITE_URL };
 
 const LASTMOD_PATTERN = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?$/;
 
@@ -104,7 +98,7 @@ export function buildSitemap() {
 }
 
 export function buildRobotsTxt() {
-  return `User-agent: *\nDisallow: /admin\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+  return `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
 }
 
 export function validateSitemap(xml) {
@@ -145,16 +139,35 @@ export function validateSitemap(xml) {
 export function validateRobots(text) {
   const sitemapLine = `Sitemap: ${SITE_URL}/sitemap.xml`;
   if (!text.includes(sitemapLine)) throw new Error("robots.txt is missing the sitemap reference.");
-  if (!text.includes("Disallow: /admin")) throw new Error("robots.txt is missing the admin exclusion.");
+  if (/^Disallow:\s*\/\s*$/m.test(text)) throw new Error("robots.txt blocks the whole website.");
+}
+
+function writeRouteHtml(dist) {
+  const shellPath = resolve(dist, "index.html");
+  const shell = readFileSync(shellPath, "utf8");
+  const titles = new Set();
+  for (const page of [...PUBLIC_ROUTES, ADMIN_PAGE]) {
+    const html = applyHead(shell, page);
+    const title = html.match(/<title>([^<]*)<\/title>/)?.[1];
+    if (!title || titles.has(title)) throw new Error(`Route HTML is missing a unique title for ${page.path}.`);
+    titles.add(title);
+    if (page.robots.startsWith("noindex") && !html.includes("noindex")) throw new Error(`Noindex is missing from ${page.path}.`);
+    if (!page.robots.startsWith("noindex") && !html.includes(`<link rel="canonical" href="${SITE_URL}${page.path === "/" ? "/" : page.path}"`)) {
+      throw new Error(`Canonical URL is missing from ${page.path}.`);
+    }
+    writeFileSync(resolve(dist, htmlFileFor(page.path)), html);
+  }
 }
 
 export function writeBuildSeoFiles() {
+  assertSeoPages();
   const sitemap = buildSitemap();
   const robots = buildRobotsTxt();
   validateSitemap(sitemap);
   validateRobots(robots);
   const dist = resolve(frontendRoot, "dist");
   mkdirSync(dist, { recursive: true });
+  writeRouteHtml(dist);
   writeFileSync(resolve(dist, "sitemap.xml"), sitemap);
   writeFileSync(resolve(dist, "robots.txt"), robots);
 }

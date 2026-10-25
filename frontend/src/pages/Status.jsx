@@ -39,7 +39,7 @@ export default function Status() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-14">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Registration status</p>
-      <h1 className="mt-2 text-4xl font-extrabold text-pine">Check your application</h1>
+      <h1 className="mt-2 text-4xl font-extrabold text-pine">Check your quiz registration</h1>
       <p className="mt-3 text-muted">Search with the registration number or the mobile number used on the form. Personal identity details stay with the academy office.</p>
       <form onSubmit={search} className="card mt-8 grid gap-4 p-6 md:grid-cols-2">
         <label>

@@ -28,7 +28,7 @@ export default function Results() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-14">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Results</p>
-      <h1 className="mt-2 text-4xl font-extrabold text-pine">Check your result</h1>
+      <h1 className="mt-2 text-4xl font-extrabold text-pine">Check your quiz result</h1>
       <p className="mt-3 text-muted">Enter the registration number. A result appears here only after the academy publishes it.</p>
       <form onSubmit={search} className="card mt-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-end">
         <label className="flex-1">

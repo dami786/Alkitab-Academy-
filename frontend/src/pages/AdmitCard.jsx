@@ -91,7 +91,7 @@ export default function AdmitCard() {
             <p className="mt-1 text-sm font-semibold text-muted">Admit Card / Roll Number Slip</p>
           </div>
           <div className="mt-6 flex flex-col gap-6 sm:flex-row">
-            {card.photo && <img src={card.photo} alt="" className="h-40 w-32 rounded-xl object-cover ring-1 ring-[#eadfd8]" />}
+            {card.photo && <img src={card.photo} alt="Applicant photograph" width="128" height="160" className="h-40 w-32 rounded-xl object-cover ring-1 ring-[#eadfd8]" />}
             <dl className="grid flex-1 gap-3 text-sm sm:grid-cols-2">
               <Item label="Name" value={card.name} />
               <Item label="Father’s name" value={card.fatherName} />

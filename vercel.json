@@ -8,7 +8,24 @@
     "frontend": {
       "root": "frontend",
       "framework": "vite",
-      "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+      "redirects": [
+        { "source": "/index.html", "destination": "/", "permanent": true },
+        { "source": "/register.html", "destination": "/register", "permanent": true },
+        { "source": "/status.html", "destination": "/status", "permanent": true },
+        { "source": "/admit-card.html", "destination": "/admit-card", "permanent": true },
+        { "source": "/results.html", "destination": "/results", "permanent": true },
+        { "source": "/contact.html", "destination": "/contact", "permanent": true },
+        { "source": "/admin.html", "destination": "/admin", "permanent": true }
+      ],
+      "rewrites": [
+        { "source": "/register", "destination": "/register.html" },
+        { "source": "/status", "destination": "/status.html" },
+        { "source": "/admit-card", "destination": "/admit-card.html" },
+        { "source": "/results", "destination": "/results.html" },
+        { "source": "/contact", "destination": "/contact.html" },
+        { "source": "/admin", "destination": "/admin.html" },
+        { "source": "/(.*)", "destination": "/index.html" }
+      ]
     }
   },
   "rewrites": [

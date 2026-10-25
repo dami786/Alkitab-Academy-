@@ -70,7 +70,15 @@ export default function Home() {
           </div>
           <p className="mt-4 text-base font-extrabold text-red-700">Registration fee is only PKR 310.</p>
           <div className="mx-auto mt-12 overflow-hidden rounded-[28px] border border-gold/50 bg-white shadow-card">
-            <img src="/hero.jpg" alt="Rahmat-e-Kainat Quiz Competition 2026-27, coming soon" className="h-auto w-full" decoding="async" fetchPriority="high" />
+            <img
+              src="/hero.jpg"
+              alt="Poster for the Rahmat-e-Kainat Quiz Competition 2026-27. It says coming soon and invites students to test their knowledge of the Seerat-un-Nabi."
+              width="1024"
+              height="587"
+              className="h-auto w-full"
+              decoding="async"
+              fetchPriority="high"
+            />
           </div>
         </div>
       </section>
@@ -117,6 +125,8 @@ export default function Home() {
                   <img
                     src="/founder.jpg"
                     alt="Khizar Hayyat Abbasi, Founder and Project Director"
+                    width="772"
+                    height="1024"
                     className="h-auto w-full object-contain"
                     loading="lazy"
                     decoding="async"
@@ -153,6 +163,8 @@ export default function Home() {
               src="/prizes.jpg"
               loading="lazy"
               decoding="async"
+              width="1024"
+              height="587"
               alt="Rahmat-e-Kainat Quiz Competition 2026–27 cash prizes: first prize 300,000 PKR, second prize 200,000 PKR, and third prize 100,000 PKR"
               className="h-auto w-full"
             />
@@ -202,7 +214,7 @@ export default function Home() {
               return (
                 <article key={book.english} className="card flex h-full flex-col overflow-hidden">
                   {image && (
-                    <img src={image} alt={book.english} className="h-72 w-full bg-[#f6efe2] object-contain sm:h-80" loading="lazy" decoding="async" />
+                    <img src={image} alt={book.english} width="1024" height="571" className="h-72 w-full bg-[#f6efe2] object-contain sm:h-80" loading="lazy" decoding="async" />
                   )}
                   <div className="flex flex-1 flex-col p-7">
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-goldDeep">Book {index + 1}</p>
@@ -211,7 +223,7 @@ export default function Home() {
                     <p className="mt-4 text-sm font-semibold text-ink">{book.english}</p>
                     {book.link && (
                       <a href={book.link} target="_blank" rel="noreferrer" className="btn-primary mt-6 self-start">
-                        Open book PDF
+                        Open {book.english.split("—")[0].trim()}
                       </a>
                     )}
                   </div>
@@ -254,6 +266,8 @@ export default function Home() {
           <img
             src="/test-centers.jpg"
             alt="Quiz test cities: Abbottabad and Mansehra, Haripur and Wah Cantt, Rawalpindi and Islamabad, Sargodha and Khushab, Faisalabad, Gujranwala, Lahore, Multan, Rahim Yar Khan, Malakand, Peshawar, Hyderabad, Karachi, and Quetta."
+            width="1024"
+            height="571"
             className="mb-8 w-full rounded-3xl"
             loading="lazy"
             decoding="async"

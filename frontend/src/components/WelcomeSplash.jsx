@@ -29,6 +29,8 @@ export default function WelcomeSplash() {
       <img
         src="/register-now.jpg"
         alt="Rahmat-e-Kainat Quiz Competition 2026-27. Register now at alkitabinternationalacademy.com."
+        width="1024"
+        height="587"
         className="max-h-full max-w-full object-contain"
       />
     </div>
