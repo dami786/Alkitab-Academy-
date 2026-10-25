@@ -8,6 +8,7 @@ export default function AdmitCard() {
   const [mobile, setMobile] = useState(params.get("mobile") || "");
   const [card, setCard] = useState(null);
   const [waiting, setWaiting] = useState("");
+  const [rejected, setRejected] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -15,6 +16,7 @@ export default function AdmitCard() {
     setBusy(true);
     setError("");
     setWaiting("");
+    setRejected(null);
     setCard(null);
     try {
       const data = await request("/api/admit-card", {
@@ -22,8 +24,15 @@ export default function AdmitCard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ regNumber: nextReg, mobile: nextMobile }),
       });
+      if (data.rejected) {
+        setRejected({
+          message: data.message || "Your request is rejected",
+          note: data.note || "",
+        });
+        return;
+      }
       if (data.ready === false) {
-        setWaiting(data.message || data.error || "");
+        setWaiting(data.message || data.error || "Roll no slip coming soon");
         return;
       }
       setCard(data);
@@ -50,7 +59,7 @@ export default function AdmitCard() {
       <div className="no-print">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Admit card</p>
         <h1 className="mt-2 text-4xl font-extrabold text-pine">Download your roll number slip</h1>
-        <p className="mt-3 text-muted">Enter the registration number and the same mobile number used in the form. The card opens after the academy accepts the registration.</p>
+        <p className="mt-3 text-muted">Enter the registration number and the same mobile number used in the form. If the academy has allowed the slip, it opens here. If not, you will see Roll no slip coming soon.</p>
         <form onSubmit={load} className="card mt-8 grid gap-4 p-6 md:grid-cols-2">
           <label>
             <span className="label">Registration number</span>
@@ -65,6 +74,12 @@ export default function AdmitCard() {
           </div>
         </form>
         {waiting && <p className="mt-4 rounded-2xl bg-gold/30 px-4 py-4 text-base font-extrabold leading-7 text-pine">{waiting}</p>}
+        {rejected && (
+          <div className="mt-4 rounded-2xl bg-red-50 px-4 py-4">
+            <p className="text-base font-extrabold leading-7 text-red-700">{rejected.message}</p>
+            {rejected.note && <p className="mt-2 text-sm leading-7 text-red-700">{rejected.note}</p>}
+          </div>
+        )}
         {error && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
       </div>
 

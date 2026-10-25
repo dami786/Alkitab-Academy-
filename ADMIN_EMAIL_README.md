@@ -1,19 +1,17 @@
-# Admin frontend — decision emails
+# Admin frontend — email is removed
 
-Give this file to the admin frontend. The public website and the API already send the email. The admin screen only needs to show whether that email went out.
+The API no longer sends accept or reject emails. Do not show email success or failure after Accept or Reject.
 
 ## What already happens
 
-When the admin presses **Accept** or **Reject**, the API updates the registration and emails the candidate in English.
+When the admin presses **Accept** or **Reject**, the API only updates the registration.
 
-- **Accepted:** the email says the request was accepted, and it includes the registration number, the mobile number from the form, and the admit-card link `https://www.alkitabinternationalacademy.com/admit-card`.
-- **Rejected:** the email says the request was not accepted, includes the registration number, and includes the optional rejection note if the admin typed one.
+- **Accepted:** the candidate gets a roll number. They can open the admit card on the public site with the registration number and the mobile number from the form.
+- **Rejected:** the registration is marked rejected. The admit-card page does not show a slip.
 
-The candidate’s address is the `email` already saved on the registration. The admin frontend does not collect a new address and does not call a new email API.
+The candidate sees both numbers on the registration success page. They check the slip at `/admit-card`. If the academy has accepted the registration, the slip opens. If not, the page shows **Roll no slip coming soon**.
 
-Candidates who were already accepted or rejected before email was turned on are emailed automatically once, when the API starts with mail settings saved. Do not add a “send old emails” button.
-
-Mail settings live on the API server (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `SITE_URL`). Do not put those values in the admin frontend.
+Do not add a “Send email” button. Do not ask for SMTP settings.
 
 ## API
 
@@ -31,41 +29,33 @@ Reject, with an optional note:
 { "action": "reject", "note": "Payment receipt was not clear." }
 ```
 
-Header: `Authorization: Bearer <token>` from `localStorage` key `alkitab_admin`.
-
-The JSON response now also includes:
+The JSON response no longer includes `emailSent` or `emailError`.
 
 ```json
 {
   "id": "…",
   "status": "approved",
-  "emailSent": true,
-  "emailError": ""
+  "rollNumber": "RN-0001"
 }
 ```
 
-- `emailSent: true` means the candidate’s inbox was sent the message.
-- `emailSent: false` means the registration was still saved, but the email did not go. `emailError` is a short English reason, such as `Email is not configured on the server.`
-
-Other actions (`pending`, `roll-slip`) return `emailSent: false` and an empty `emailError`. Do not show an email warning for those.
-
-## What to build
+## What to change in the admin frontend
 
 On the candidate detail screen, after Accept or Reject succeeds:
 
-- If `emailSent` is true, show: **Email sent to the candidate.**
-- If `emailSent` is false, show: **Saved, but the email was not sent.** Then show `emailError` under it.
-- Do not block Accept or Reject when the email fails. The decision is already saved.
-- Do not add a separate “Send email” button.
+- Show only **Saved.** or **Accepted.** / **Rejected.**
+- Remove **Email sent to the candidate.**
+- Remove **Saved, but the email was not sent.**
+- Do not read `emailSent` or `emailError`.
+
+Keep the existing Accept, Reject, Delete, and roll-number slip buttons.
 
 ## Cursor prompt
 
 Paste this into the admin frontend chat:
 
 ```
-The registration Accept and Reject action already calls PATCH /api/admin/registrations/:id with { action: "approve" } or { action: "reject", note }.
+Email sending is removed from the API. PATCH /api/admin/registrations/:id still accepts { action: "approve" } or { action: "reject", note }. The response no longer includes emailSent or emailError.
 
-The response now includes emailSent (boolean) and emailError (string). The API emails the candidate. Do not add a new endpoint and do not ask for SMTP settings.
-
-After a successful Accept or Reject, if emailSent is true show "Email sent to the candidate." If emailSent is false show "Saved, but the email was not sent." and the emailError text. Keep the existing Accept, Reject, and Delete buttons. Do not show this email note for other actions.
+After Accept or Reject, show only "Saved." or the new status. Delete any "Email sent to the candidate" and "Saved, but the email was not sent" messages. Do not add a send-email button and do not ask for SMTP settings. Keep Accept, Reject, Delete, and the roll-number slip controls.
 ```

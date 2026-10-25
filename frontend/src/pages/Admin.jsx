@@ -62,20 +62,14 @@ export default function Admin() {
   async function act(action, extra = {}) {
     setNote("");
     try {
-      const data = await request(`/api/admin/registrations/${detail.id}`, {
+      await request(`/api/admin/registrations/${detail.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", ...authHeader() },
         body: JSON.stringify({ action, ...extra }),
       });
       await openRow(detail.id);
       await loadRegistrations();
-      if (action === "approve" || action === "reject") {
-        if (data.emailSent) setNote("Saved. Email sent to the candidate.");
-        else if (data.emailError) setNote(`Saved. Email was not sent. ${data.emailError}`);
-        else setNote("Saved. Email was not sent. Deploy the latest backend and add the SMTP variables on Render.");
-      } else {
-        setNote("Saved.");
-      }
+      setNote("Saved.");
     } catch (err) {
       setNote(err.message);
     }

@@ -70,10 +70,19 @@ export default function Status() {
               <div><dt className="text-muted">Payment</dt><dd className="font-semibold">{labels[row.paymentStatus] || row.paymentStatus}</dd></div>
               <div><dt className="text-muted">Roll number</dt><dd className="font-semibold">{row.rollNumber || "Issued after approval"}</dd></div>
             </dl>
-            {row.note && <p className="mt-4 text-sm text-red-700">{row.note}</p>}
-            {row.admitCardReady && (
-              <Link to={`/admit-card?reg=${row.regNumber}`} className="btn-primary mt-5">Download admit card</Link>
-            )}
+            {row.status === "rejected" ? (
+              <div className="mt-4 rounded-2xl bg-red-50 px-4 py-4">
+                <p className="text-base font-extrabold text-red-700">Your request is rejected</p>
+                {row.note && <p className="mt-2 text-sm leading-7 text-red-700">{row.note}</p>}
+              </div>
+            ) : row.note ? (
+              <p className="mt-4 text-sm text-red-700">{row.note}</p>
+            ) : null}
+            {row.admitCardReady ? (
+              <Link to={`/admit-card?reg=${encodeURIComponent(row.regNumber)}&mobile=${encodeURIComponent(row.mobile || "")}`} className="btn-primary mt-5">Download admit card</Link>
+            ) : row.status !== "rejected" ? (
+              <p className="mt-4 rounded-2xl bg-gold/30 px-4 py-3 text-base font-extrabold text-pine">Roll no slip coming soon</p>
+            ) : null}
           </article>
         ))}
       </div>

@@ -4,6 +4,7 @@ import { apiUrl } from "../api";
 import { useContent } from "../content.jsx";
 
 const steps = ["Personal", "Location", "Photo", "Payment"];
+const REGISTRATION_MAX_AGE = 30;
 
 const empty = {
   fullName: "",
@@ -41,6 +42,7 @@ export default function Register() {
   const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
   const [regNumber, setRegNumber] = useState("");
+  const [savedMobile, setSavedMobile] = useState("");
   const [busy, setBusy] = useState(false);
 
   const cities = useMemo(
@@ -59,7 +61,7 @@ export default function Register() {
       if (form.fullName.trim().length < 3) return "Please enter the applicant’s full name.";
       if (form.fatherName.trim().length < 3) return "Please enter the father’s name.";
       if (age === null) return "Please enter a valid date of birth.";
-      if (content && age > content.maxAge) return `Applicants must be ${content.maxAge} years of age or younger.`;
+      if (age > REGISTRATION_MAX_AGE) return `Applicants must be ${REGISTRATION_MAX_AGE} years of age or younger.`;
       if (!form.gender) return "Please select a gender.";
     }
     if (index === 1) {
@@ -110,6 +112,7 @@ export default function Register() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not submit the registration.");
       setRegNumber(data.regNumber);
+      setSavedMobile(data.mobile || form.mobile.replace(/\D/g, ""));
     } catch (err) {
       const text = err?.message || "";
       setMessage(
@@ -142,25 +145,33 @@ export default function Register() {
         <div className="card p-8">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-goldDeep">Registration received</p>
           <p className="mt-4 rounded-2xl bg-gold/30 px-4 py-3 text-base font-extrabold text-pine">Your request has been received.</p>
-          <h1 className="mt-6 text-3xl font-extrabold text-pine">Your registration number</h1>
-          <p className="mt-6 rounded-2xl bg-cream px-4 py-5 text-3xl font-extrabold tracking-wider text-pine">{regNumber}</p>
-          <p className="mt-4 text-sm leading-7 text-muted">
-            Save this number. Your roll number and admit card will be available after the academy verifies the fee and approves the application.
+          <h1 className="mt-6 text-3xl font-extrabold text-pine">Save these details</h1>
+          <p className="mt-3 text-sm leading-7 text-muted">
+            Use this registration number and mobile number to check your admit card.
           </p>
+          <div className="mt-6 grid gap-3 text-left">
+            <div className="rounded-2xl bg-cream px-4 py-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-muted">Registration number</p>
+              <p className="mt-1 text-2xl font-extrabold tracking-wider text-pine">{regNumber}</p>
+            </div>
+            <div className="rounded-2xl bg-cream px-4 py-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-muted">Mobile number</p>
+              <p className="mt-1 text-2xl font-extrabold tracking-wider text-pine">{savedMobile}</p>
+            </div>
+          </div>
           <button
             type="button"
             className="btn-outline mt-6"
-            onClick={() => navigator.clipboard.writeText(regNumber)}
+            onClick={() => navigator.clipboard.writeText(`${regNumber} ${savedMobile}`)}
           >
-            Copy number
+            Copy both
           </button>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link to="/status" className="btn-primary">Check Status</Link>
-            <Link to="/" className="btn-outline">Back to Home</Link>
+            <Link to={`/admit-card?reg=${encodeURIComponent(regNumber)}&mobile=${encodeURIComponent(savedMobile)}`} className="btn-primary">
+              Check admit card
+            </Link>
+            <Link to="/status" className="btn-outline">Check Status</Link>
           </div>
-          <p className="mt-6 text-sm font-semibold leading-7 text-pine">
-            If your request is accepted or rejected, you will receive an email.
-          </p>
         </div>
       </div>
     );
@@ -193,7 +204,7 @@ export default function Register() {
             <label className="block">
               <Label required>Date of birth / تاریخ پیدائش</Label>
               <input type="date" className="field" value={form.dob} onChange={(e) => set("dob", e.target.value)} />
-              {age !== null && <span className="mt-1 block text-xs text-muted">Age on registration day: {age} years. Limit: {content.maxAge}.</span>}
+              {age !== null && <span className="mt-1 block text-xs text-muted">Age on registration day: {age} years. Limit: {REGISTRATION_MAX_AGE}.</span>}
             </label>
             <label className="block">
               <Label required>Gender / جنس</Label>
@@ -270,7 +281,7 @@ export default function Register() {
               <input type="checkbox" className="mt-1" checked={form.declaration} onChange={(e) => set("declaration", e.target.checked)} />
               <span>
                 <span className="text-red-600" aria-hidden="true">* </span>
-                I confirm that I am {content.maxAge} years of age or younger, that male and female students of school, college, or madrasa may apply, that I do not hold a postgraduate qualification, that this is my only registration, and that the information given is true.
+                I confirm that I am {REGISTRATION_MAX_AGE} years of age or younger, that male and female students of school, college, or madrasa may apply, that I do not hold a postgraduate qualification, that this is my only registration, and that the information given is true.
               </span>
             </label>
           </div>

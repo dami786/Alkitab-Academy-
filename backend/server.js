@@ -18,7 +18,6 @@ import {
   saveSettings,
 } from "./src/db.js";
 import { signToken, verifyPassword, verifyToken } from "./src/auth.js";
-import { prepareMail, sendDecisionEmail } from "./src/mail.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -89,6 +88,8 @@ function digits(value) {
 function clean(value, max = 200) {
   return String(value || "").replace(/\s+/g, " ").trim().slice(0, max);
 }
+
+const REGISTRATION_MAX_AGE = 30;
 
 function ageFromDob(dob) {
   const birth = new Date(dob);
@@ -203,6 +204,7 @@ function toPublicStatus(record) {
     province: record.province,
     status: record.status,
     paymentStatus: record.paymentStatus,
+    mobile: record.mobile || "",
     rollNumber: ready ? record.rollNumber : null,
     admitCardReady: ready,
     resultPublished: Boolean(record.result?.published),
@@ -305,8 +307,8 @@ app.post("/api/register", (req, res) => {
       if (fullName.length < 3) throw new Error("Please enter the applicant’s full name.");
       if (fatherName.length < 3) throw new Error("Please enter the father’s name.");
       if (age === null) throw new Error("Please enter a valid date of birth.");
-      if (age > Number(settings.maxAge || 25)) {
-        throw new Error(`Applicants must be ${settings.maxAge || 25} years of age or younger.`);
+      if (age > REGISTRATION_MAX_AGE) {
+        throw new Error(`Applicants must be ${REGISTRATION_MAX_AGE} years of age or younger.`);
       }
       if (!["Male", "Female"].includes(gender)) throw new Error("Please select a gender.");
       if (!center) throw new Error("Please select a province and a test city.");
@@ -368,7 +370,8 @@ app.post("/api/register", (req, res) => {
 
       res.status(201).json({
         regNumber,
-        message: "Registration received. Your roll number will be issued when the academy accepts your registration.",
+        mobile,
+        message: "Registration received. Use this registration number and mobile number to check your admit card.",
       });
     } catch (error) {
       await deleteFile(photoId);
@@ -411,16 +414,18 @@ app.post("/api/admit-card", async (req, res, next) => {
       return;
     }
     if (record.status === "rejected") {
-      res.status(403).json({
+      res.json({
         ready: false,
-        error: "This registration was not accepted. Please contact the academy if you have a question.",
+        rejected: true,
+        message: "Your request is rejected",
+        note: record.adminNote || "",
       });
       return;
     }
     if (record.status !== "approved" || !record.rollNumber) {
       res.json({
         ready: false,
-        message: "Your roll number slip is not ready yet. Please check again in a few days. Keep your registration number and the mobile number you used in the form.",
+        message: "Roll no slip coming soon",
       });
       return;
     }
@@ -584,17 +589,6 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
       throw new Error("Unknown action.");
     }
     await registrations().updateOne({ id: record.id }, { $set: patch });
-    const updated = { ...record, ...patch };
-    let emailSent = false;
-    let emailError = "";
-    if (action === "approve" || action === "accept" || action === "reject") {
-      const email = await sendDecisionEmail(updated);
-      emailSent = email.sent;
-      emailError = email.error;
-      if (email.sent) {
-        await registrations().updateOne({ id: record.id }, { $set: { decisionEmailStatus: updated.status } });
-      }
-    }
     res.json({
       id: record.id,
       status: patch.status || record.status,
@@ -605,8 +599,6 @@ app.patch("/api/admin/registrations/:id", requireAdmin, async (req, res) => {
       examTime: patch.examTime ?? record.examTime,
       centerConfirmed: patch.centerConfirmed ?? record.centerConfirmed === true,
       examVenue: patch.examVenue ?? record.examVenue,
-      emailSent,
-      emailError,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -799,26 +791,10 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: "Something went wrong. Please try again." });
 });
 
-async function sendMissedDecisionEmails() {
-  const records = await registrations().find({ status: { $in: ["approved", "rejected"] } }).toArray();
-  let sent = 0;
-  for (const record of records) {
-    if (record.decisionEmailStatus === record.status) continue;
-    const email = await sendDecisionEmail(record);
-    if (!email.sent) continue;
-    await registrations().updateOne({ id: record.id }, { $set: { decisionEmailStatus: record.status } });
-    sent += 1;
-  }
-  if (sent) console.log(`Decision emails sent to ${sent} earlier candidates.`);
-}
-
 connectDb()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Al-Kitab quiz API running on http://localhost:${PORT}`);
-    });
-    prepareMail().finally(() => {
-      sendMissedDecisionEmails().catch((error) => console.error(error));
     });
   })
   .catch((error) => {
